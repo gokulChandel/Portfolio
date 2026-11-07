@@ -1,0 +1,373 @@
+import {
+  Profile,
+  SkillCategory,
+  Skill,
+  Project,
+  Experience,
+  Education,
+  Certification,
+  Service,
+  SiteSettings,
+} from '@/types';
+
+export const initialProfile: Profile = {
+  id: 'gokul-chandel-profile',
+  name: 'Gokul Chandel',
+  title: 'Full Stack Developer',
+  subtitle: 'Building scalable digital experiences with modern technologies.',
+  intro_tag: "HELLO, I'M",
+  bio: 'I am a Full Stack Developer with 2+ years of experience building modern web applications, scalable backend systems, and interactive user experiences.',
+  experience_years: '2+',
+  current_company: 'Parkhya Solutions Pvt. Ltd.',
+  location: 'India',
+  email: 'gokulchandel.dev@gmail.com',
+  github_url: 'https://github.com/gokulchandel',
+  linkedin_url: 'https://linkedin.com/in/gokulchandel',
+  resume_url: '/resume.pdf',
+  availability_status: 'Available for opportunities',
+  about_paragraphs: [
+    'I am a Full Stack Developer with 2+ years of professional experience engineering resilient web applications and backend systems at Parkhya Solutions Pvt. Ltd.',
+    'My core expertise revolves around the MERN stack (MongoDB, Express.js, React.js, Node.js), modern Next.js architectures, TypeScript, and relational databases like PostgreSQL. I am passionate about crafting clean system architectures, reusable component design systems, and efficient RESTful APIs.',
+    'I focus on solving real-world business challenges through scalable software solutions, rigorous performance optimization, clean code principles, and intuitive user experiences.',
+  ],
+  career_targets: [
+    'Software Development Engineer',
+    'Full Stack Developer',
+    'Backend Developer',
+  ],
+  primary_expertise: [
+    'MERN Stack Development',
+    'Full Stack Web Application Development',
+    'Frontend Development',
+    'Backend Development',
+    'REST API Development',
+    'Database Management',
+  ],
+  highlights: [
+    {
+      label: '2+ Years',
+      sublabel: 'Professional Experience',
+      icon: 'Briefcase',
+    },
+    {
+      label: 'Full Stack',
+      sublabel: 'MERN & Next.js Architecture',
+      icon: 'Layers',
+    },
+    {
+      label: 'Modern Web',
+      sublabel: 'React, TypeScript, Tailwind',
+      icon: 'Code2',
+    },
+    {
+      label: 'Scalable Systems',
+      sublabel: 'REST APIs & Clean DB Design',
+      icon: 'Server',
+    },
+  ],
+};
+
+export const initialSkillCategories: SkillCategory[] = [
+  { id: 'cat-frontend', name: 'Frontend', display_order: 1 },
+  { id: 'cat-backend', name: 'Backend', display_order: 2 },
+  { id: 'cat-database', name: 'Database', display_order: 3 },
+  { id: 'cat-devops', name: 'DevOps & Cloud', display_order: 4 },
+  { id: 'cat-tools', name: 'Tools', display_order: 5 },
+];
+
+export const initialSkills: Skill[] = [
+  // Frontend
+  { id: 'sk-react', category_id: 'cat-frontend', category_name: 'Frontend', name: 'React.js', icon: 'Code', proficiency_label: 'Experienced', display_order: 1, is_active: true },
+  { id: 'sk-nextjs', category_id: 'cat-frontend', category_name: 'Frontend', name: 'Next.js', icon: 'Globe', proficiency_label: 'Experienced', display_order: 2, is_active: true },
+  { id: 'sk-js', category_id: 'cat-frontend', category_name: 'Frontend', name: 'JavaScript', icon: 'FileCode', proficiency_label: 'Experienced', display_order: 3, is_active: true },
+  { id: 'sk-ts', category_id: 'cat-frontend', category_name: 'Frontend', name: 'TypeScript', icon: 'FileCode2', proficiency_label: 'Proficient', display_order: 4, is_active: true },
+  { id: 'sk-html5', category_id: 'cat-frontend', category_name: 'Frontend', name: 'HTML5', icon: 'Layout', proficiency_label: 'Experienced', display_order: 5, is_active: true },
+  { id: 'sk-css3', category_id: 'cat-frontend', category_name: 'Frontend', name: 'CSS3', icon: 'Palette', proficiency_label: 'Experienced', display_order: 6, is_active: true },
+  { id: 'sk-tailwind', category_id: 'cat-frontend', category_name: 'Frontend', name: 'Tailwind CSS', icon: 'Sparkles', proficiency_label: 'Experienced', display_order: 7, is_active: true },
+  { id: 'sk-redux', category_id: 'cat-frontend', category_name: 'Frontend', name: 'Redux', icon: 'Cpu', proficiency_label: 'Proficient', display_order: 8, is_active: true },
+
+  // Backend
+  { id: 'sk-node', category_id: 'cat-backend', category_name: 'Backend', name: 'Node.js', icon: 'Server', proficiency_label: 'Experienced', display_order: 1, is_active: true },
+  { id: 'sk-express', category_id: 'cat-backend', category_name: 'Backend', name: 'Express.js', icon: 'Box', proficiency_label: 'Experienced', display_order: 2, is_active: true },
+  { id: 'sk-rest', category_id: 'cat-backend', category_name: 'Backend', name: 'REST APIs', icon: 'Network', proficiency_label: 'Experienced', display_order: 3, is_active: true },
+  { id: 'sk-golang', category_id: 'cat-backend', category_name: 'Backend', name: 'Golang', icon: 'Terminal', proficiency_label: 'Learning', display_order: 4, is_active: true },
+
+  // Database
+  { id: 'sk-mongo', category_id: 'cat-database', category_name: 'Database', name: 'MongoDB', icon: 'Database', proficiency_label: 'Experienced', display_order: 1, is_active: true },
+  { id: 'sk-postgres', category_id: 'cat-database', category_name: 'Database', name: 'PostgreSQL', icon: 'DatabaseZap', proficiency_label: 'Proficient', display_order: 2, is_active: true },
+  { id: 'sk-supabase', category_id: 'cat-database', category_name: 'Database', name: 'Supabase', icon: 'Zap', proficiency_label: 'Proficient', display_order: 3, is_active: true },
+  { id: 'sk-firebase', category_id: 'cat-database', category_name: 'Database', name: 'Firebase', icon: 'Flame', proficiency_label: 'Proficient', display_order: 4, is_active: true },
+
+  // DevOps & Cloud
+  { id: 'sk-docker', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'Docker', icon: 'Container', proficiency_label: 'Working Knowledge', display_order: 1, is_active: true },
+  { id: 'sk-aws', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'AWS', icon: 'Cloud', proficiency_label: 'Working Knowledge', display_order: 2, is_active: true },
+  { id: 'sk-actions', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'GitHub Actions', icon: 'GitPullRequest', proficiency_label: 'Working Knowledge', display_order: 3, is_active: true },
+  { id: 'sk-cicd', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'CI/CD', icon: 'Workflow', proficiency_label: 'Working Knowledge', display_order: 4, is_active: true },
+  { id: 'sk-linux', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'Linux', icon: 'TerminalSquare', proficiency_label: 'Proficient', display_order: 5, is_active: true },
+
+  // Tools
+  { id: 'sk-git', category_id: 'cat-tools', category_name: 'Tools', name: 'Git', icon: 'GitBranch', proficiency_label: 'Experienced', display_order: 1, is_active: true },
+  { id: 'sk-github', category_id: 'cat-tools', category_name: 'Tools', name: 'GitHub', icon: 'Github', proficiency_label: 'Experienced', display_order: 2, is_active: true },
+  { id: 'sk-postman', category_id: 'cat-tools', category_name: 'Tools', name: 'Postman', icon: 'Send', proficiency_label: 'Experienced', display_order: 3, is_active: true },
+  { id: 'sk-vscode', category_id: 'cat-tools', category_name: 'Tools', name: 'VS Code', icon: 'CodeXml', proficiency_label: 'Experienced', display_order: 4, is_active: true },
+];
+
+export const initialProjects: Project[] = [
+  {
+    id: 'proj-1',
+    slug: 'schoolware-admin',
+    title: 'Schoolware Admin',
+    category: 'School Management System',
+    short_description: 'A comprehensive school management platform designed to manage students, teachers, classes, attendance, timetables, and administrative workflows.',
+    full_description: 'Schoolware Admin is a full-featured web-based school administration and ERP platform. It unifies operations across students, faculty, academic departments, fee schedules, class timetables, and attendance logs into a responsive and intuitive digital workspace. Engineered to eliminate operational friction and enhance data accuracy for school administrative teams.',
+    problem_statement: 'Educational institutions frequently battle disjointed record systems, manual attendance tracking, scattered timetable scheduling, and inefficient student data retrieval which create administrative bottlenecks and human error.',
+    solution: 'Designed and developed a cohesive administrative dashboard with role-based authorization, automated timetable management, student lifecycle tracking, attendance logging, and fast search capabilities with secure API endpoints.',
+    features: [
+      'Role-based access control (Admin, Teacher, Staff)',
+      'Comprehensive student and faculty profiles & record archives',
+      'Class & section timetable generator with collision detection',
+      'Daily attendance tracking and reporting system',
+      'Administrative notices and announcements distribution',
+      'Exportable reports for academic audits and records',
+    ],
+    technologies: [
+      'React.js',
+      'Node.js',
+      'Express.js',
+      'MongoDB',
+      'Tailwind CSS',
+      'JWT',
+      'REST APIs',
+    ],
+    contributions: [
+      'Architected RESTful backend API services with Express.js and MongoDB.',
+      'Designed responsive admin UI layouts using React.js and Tailwind CSS.',
+      'Implemented secure JWT authentication and role-based permissions.',
+      'Engineered dynamic timetable creation and attendance management modules.',
+    ],
+    thumbnail_url: '/images/projects/schoolware-thumb.webp',
+    images: [
+      '/images/projects/schoolware-thumb.webp',
+      '/images/projects/schoolware-detail-1.webp',
+    ],
+    live_url: '',
+    github_url: 'https://github.com/gokulchandel',
+    is_featured: true,
+    is_published: true,
+    display_order: 1,
+    created_at: '2023-10-15T00:00:00Z',
+  },
+  {
+    id: 'proj-2',
+    slug: 'janhit-chemist',
+    title: 'Janhit Chemist',
+    category: 'Pharmacy Management Platform',
+    short_description: 'A pharmacy management platform with inventory management, medicine tracking, order management, and administrative functionality.',
+    full_description: 'Janhit Chemist is a purpose-built digital management system for pharmacy retailers and distributors. It provides complete oversight of medicine stocks, batch numbers, expiration schedules, supplier orders, and customer billing workflows with real-time stock alerts.',
+    problem_statement: 'Retail pharmacy stores struggle with manual inventory reconciliation, unmonitored medicine expiry losses, stockout scenarios during peak hours, and cumbersome invoice processing.',
+    solution: 'Built an end-to-end pharmacy operations platform with fast medicine search, automated low-stock warnings, expiry date monitoring, purchase order recording, and seamless point-of-sale receipt generation.',
+    features: [
+      'Real-time medicine inventory tracking with batch number records',
+      'Automated expiry alerts and shelf-life monitoring',
+      'Supplier order management and invoice generation',
+      'Fast customer search and billing module',
+      'Administrative sales reports and inventory valuation summaries',
+    ],
+    technologies: [
+      'React.js',
+      'Node.js',
+      'MongoDB',
+      'Bootstrap',
+      'REST APIs',
+    ],
+    contributions: [
+      'Developed inventory tracking and batch management backend logic.',
+      'Implemented front-end management modules in React.js.',
+      'Integrated RESTful endpoints for medicine catalog and transactions.',
+      'Optimized MongoDB queries for real-time inventory level searches.',
+    ],
+    thumbnail_url: '/images/projects/janhit-thumb.webp',
+    images: [
+      '/images/projects/janhit-thumb.webp',
+      '/images/projects/janhit-detail-1.webp',
+    ],
+    live_url: '',
+    github_url: 'https://github.com/gokulchandel',
+    is_featured: true,
+    is_published: true,
+    display_order: 2,
+    created_at: '2024-02-10T00:00:00Z',
+  },
+  {
+    id: 'proj-3',
+    slug: 'crm-platform',
+    title: 'CRM Platform',
+    category: 'Customer Relationship Management',
+    short_description: 'A CRM application focused on lead generation, lead management, business analytics, and tracking sales activities.',
+    full_description: 'A tailored Customer Relationship Management platform designed to streamline sales workflows, lead acquisition, follow-up scheduling, customer interaction history, and conversion analytics for growing businesses.',
+    problem_statement: 'Sales teams lose potential deals when lead data is scattered across spreadsheets, follow-up reminders are missed, and managers lack real-time visibility into the team sales pipeline.',
+    solution: 'Engineered an intuitive CRM web platform enabling stage-by-stage pipeline tracking, lead source tagging, interaction logs, task assignees, and real-time dashboard analytics.',
+    features: [
+      'Pipeline stages tracking from prospecting to closure',
+      'Lead assignment and multi-channel source categorization',
+      'Activity timeline with call notes, emails, and meetings',
+      'Performance analytics and monthly conversion metrics',
+      'Role-based data access for sales reps and managers',
+    ],
+    technologies: [
+      'React.js',
+      'Node.js',
+      'Express.js',
+      'MongoDB',
+      'REST APIs',
+      'Tailwind CSS',
+    ],
+    contributions: [
+      'Designed lead lifecycle data schemas and state transitions.',
+      'Built interactive pipeline boards and lead detail views.',
+      'Implemented analytics endpoints for stage conversion rates.',
+      'Created automated status update workflows for sales activities.',
+    ],
+    thumbnail_url: '/images/projects/crm-thumb.webp',
+    images: [
+      '/images/projects/crm-thumb.webp',
+      '/images/projects/crm-detail-1.webp',
+    ],
+    live_url: '',
+    github_url: 'https://github.com/gokulchandel',
+    is_featured: true,
+    is_published: true,
+    display_order: 3,
+    created_at: '2024-06-20T00:00:00Z',
+  },
+];
+
+export const initialExperiences: Experience[] = [
+  {
+    id: 'exp-parkhya',
+    company: 'Parkhya Solutions Pvt. Ltd.',
+    role: 'Junior Software Engineer',
+    location: 'India',
+    period: '2022 - Present (2+ Years)',
+    start_date: '2022-08-01',
+    end_date: null,
+    is_current: true,
+    description: 'Working on modern web application development using React.js, Node.js, Express.js, MongoDB, and related technologies.',
+    responsibilities: [
+      'Engineered full-stack features using React.js, Node.js, Express.js, and MongoDB for diverse enterprise web applications.',
+      'Developed performant, scalable RESTful APIs with structured request validation and JWT-based authentication.',
+      'Designed modular, reusable frontend component libraries with clean state management and responsive styling.',
+      'Optimized database queries and indexing strategies in MongoDB to improve API response latencies.',
+      'Collaborated in Agile development cycles, sprint planning, peer code reviews, and version control using Git and GitHub.',
+    ],
+    technologies: [
+      'React.js',
+      'Node.js',
+      'Express.js',
+      'MongoDB',
+      'JavaScript',
+      'TypeScript',
+      'REST APIs',
+      'Tailwind CSS',
+      'Git',
+    ],
+    display_order: 1,
+  },
+];
+
+export const initialEducation: Education[] = [
+  {
+    id: 'edu-bachelor',
+    institution: 'University / Institute of Technology',
+    degree: 'Bachelor of Technology (B.Tech)',
+    field_of_study: 'Computer Science & Engineering',
+    start_date: '2018',
+    end_date: '2022',
+    grade: 'First Class with Distinction',
+    description: 'Core coursework in Data Structures, Algorithms, Database Management Systems, Computer Networks, and Software Engineering.',
+    display_order: 1,
+  },
+];
+
+export const initialCertifications: Certification[] = [
+  {
+    id: 'cert-fullstack',
+    name: 'Full Stack Web Development Certification',
+    issuer: 'Professional Developer Training Program',
+    issue_date: '2022',
+    credential_url: '',
+    description: 'Hands-on intensive training covering modern MERN architecture, REST API standards, and database modeling.',
+    display_order: 1,
+  },
+];
+
+export const initialServices: Service[] = [
+  {
+    id: 'serv-fullstack',
+    title: 'Full Stack Web Development',
+    description: 'End-to-end development of modern web applications using React, Next.js, Node.js, and Express with scalable architecture.',
+    icon: 'Layers',
+    display_order: 1,
+  },
+  {
+    id: 'serv-frontend',
+    title: 'Frontend Development',
+    description: 'Crafting responsive, high-performance user interfaces with React.js, Next.js, TypeScript, and modern CSS/Tailwind.',
+    icon: 'Layout',
+    display_order: 2,
+  },
+  {
+    id: 'serv-backend',
+    title: 'Backend Development',
+    description: 'Building secure, robust server-side applications and microservices using Node.js, Express.js, and clean code principles.',
+    icon: 'Server',
+    display_order: 3,
+  },
+  {
+    id: 'serv-apis',
+    title: 'REST API Development',
+    description: 'Designing and documenting clean, standardized, and secure RESTful APIs with authentication and comprehensive error handling.',
+    icon: 'Network',
+    display_order: 4,
+  },
+  {
+    id: 'serv-database',
+    title: 'Database Design',
+    description: 'Schema modeling, relationship structuring, query optimization, and data integrity across MongoDB and PostgreSQL.',
+    icon: 'Database',
+    display_order: 5,
+  },
+  {
+    id: 'serv-optimization',
+    title: 'Web Application Optimization',
+    description: 'Diagnosing bottlenecks, reducing bundle sizes, improving Core Web Vitals, and enhancing overall application responsiveness.',
+    icon: 'Zap',
+    display_order: 6,
+  },
+];
+
+export const initialSiteSettings: SiteSettings = {
+  id: 'site-settings-main',
+  site_title: 'Gokul Chandel | Full Stack Developer',
+  meta_description: 'Portfolio of Gokul Chandel - Full Stack Developer with 2+ years of experience building modern web applications, scalable backend systems, and interactive user experiences.',
+  keywords: [
+    'Gokul Chandel',
+    'Full Stack Developer',
+    'MERN Stack Developer',
+    'React Developer',
+    'Node.js Developer',
+    'Software Engineer',
+    'Backend Developer',
+    'Web Developer India',
+    'Parkhya Solutions',
+  ],
+  og_image: '/images/og-image.png',
+  footer_text: '© 2026 Gokul Chandel. Engineered for performance and clean architecture.',
+  is_hireable: true,
+  resume_url: '/resume.pdf',
+  social_links: {
+    github: 'https://github.com/gokulchandel',
+    linkedin: 'https://linkedin.com/in/gokulchandel',
+    email: 'gokulchandel.dev@gmail.com',
+  },
+};

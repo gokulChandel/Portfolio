@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #080B12;
+    --bg-secondary: #0D1220;
+    --bg-card: #111827;
+    --bg-card-hover: #162032;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent: #8B5CF6;
+    --accent-glow: rgba(139, 92, 246, 0.25);
+    --secondary-accent: #22D3EE;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --glass-bg: rgba(17, 24, 39, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  [data-theme="light"] {
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #F1F5F9;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFC;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --accent: #7C3AED;
+    --accent-glow: rgba(124, 58, 237, 0.15);
+    --secondary-accent: #0284C7;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.16);
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(0, 0, 0, 0.08);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  [data-theme="light"] html {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1E293B;
+    border-radius: 4px;
+  }
+  [data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+}
+
+/* Light Theme Overrides for hardcoded elements */
+[data-theme="light"] .bg-\[\#080B12\] {
+  background-color: #F8FAFC !important;
+}
+
+[data-theme="light"] .bg-\[\#080B12\]\/80,
+[data-theme="light"] .bg-\[\#080B12\]\/85,
+[data-theme="light"] .bg-\[\#080B12\]\/90 {
+  background-color: rgba(248, 250, 252, 0.9) !important;
+}
+
+[data-theme="light"] .bg-\[\#0D1220\],
+[data-theme="light"] .bg-\[\#0D1220\]\/50,
+[data-theme="light"] .bg-\[\#0D1220\]\/60 {
+  background-color: #F1F5F9 !important;
+}
+
+[data-theme="light"] .bg-\[\#111827\],
+[data-theme="light"] .bg-\[\#111827\]\/60,
+[data-theme="light"] .bg-\[\#111827\]\/70,
+[data-theme="light"] .bg-\[\#111827\]\/80,
+[data-theme="light"] .bg-\[\#111827\]\/90 {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .text-white {
+  color: #0F172A !important;
+}
+
+[data-theme="light"] .text-slate-100 {
+  color: #1E293B !important;
+}
+
+[data-theme="light"] .text-slate-200 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .text-slate-300 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-slate-400 {
+  color: #64748B !important;
+}
+
+[data-theme="light"] .border-white\/\[0\.04\],
+[data-theme="light"] .border-white\/\[0\.05\],
+[data-theme="light"] .border-white\/\[0\.06\],
+[data-theme="light"] .border-white\/\[0\.08\],
+[data-theme="light"] .border-white\/\[0\.1\] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .bg-white\/\[0\.02\],
+[data-theme="light"] .bg-white\/\[0\.03\],
+[data-theme="light"] .bg-white\/\[0\.04\],
+[data-theme="light"] .bg-white\/\[0\.05\] {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .bg-white\/\[0\.06\],
+[data-theme="light"] .bg-white\/\[0\.08\],
+[data-theme="light"] .bg-white\/\[0\.1\] {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Glassmorphism & Card utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glow-card {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(34, 211, 238, 0.15), transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+[data-theme="light"] .glow-card::before {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(2, 132, 199, 0.12), transparent 70%);
+}
+
+.glow-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -12px rgba(139, 92, 246, 0.18);
+}
+
+[data-theme="light"] .glow-card:hover {
+  box-shadow: 0 16px 36px -12px rgba(124, 58, 237, 0.12);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #F8FAFC 20%, #94A3B8 60%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .text-gradient {
+  background: linear-gradient(135deg, #0F172A 20%, #475569 60%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-accent-gradient {
+  background: linear-gradient(135deg, #8B5CF6 0%, #22D3EE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtle grid pattern background */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+[data-theme="light"] .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+/* Pulse animation utility */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.04); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}

@@ -1,0 +1,7 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'>
+  <rect width='1200' height='630' fill='#080B12'/>
+  <circle cx='600' cy='315' r='300' fill='#8B5CF6' opacity='0.15' filter='blur(60px)'/>
+  <text x='600' y='280' fill='#FFFFFF' font-family='sans-serif' font-size='56' font-weight='bold' text-anchor='middle'>Gokul Chandel</text>
+  <text x='600' y='350' fill='#8B5CF6' font-family='sans-serif' font-size='32' text-anchor='middle'>Full Stack Developer • MERN & Next.js</text>
+  <text x='600' y='410' fill='#94A3B8' font-family='sans-serif' font-size='22' text-anchor='middle'>Parkhya Solutions Pvt. Ltd.</text>
+</svg>
