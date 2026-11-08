@@ -24,6 +24,7 @@ import {
   initialSiteSettings,
 } from './initialData';
 import { createServerSupabaseClient } from '../supabase/server';
+import { normalizeSiteColors } from '@/lib/siteColorThemes';
 
 interface LocalState {
   profile: Profile;
@@ -58,7 +59,7 @@ function getInitialState(): LocalState {
         subject: 'Senior Full Stack Opportunity',
         message: 'Hello Gokul, we reviewed your work on Schoolware and CRM platform. Would love to discuss an exciting full stack engineering opportunity with our team.',
         status: 'unread',
-        created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
+        created_at: '2025-01-01T12:00:00.000Z',
       },
     ],
     siteSettings: initialSiteSettings,
@@ -422,9 +423,17 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const supabase = createServerSupabaseClient();
   if (supabase) {
     const { data, error } = await supabase.from('site_settings').select('*').limit(1).single();
-    if (!error && data) return data as SiteSettings;
+    if (!error && data) {
+      const settings = { ...initialSiteSettings, ...data } as SiteSettings;
+      settings.light_colors = normalizeSiteColors(data.light_colors, initialSiteSettings.light_colors);
+      settings.dark_colors = normalizeSiteColors(data.dark_colors, initialSiteSettings.dark_colors);
+      return settings;
+    }
   }
-  return getLocalState().siteSettings;
+  const settings = { ...initialSiteSettings, ...getLocalState().siteSettings };
+  settings.light_colors = normalizeSiteColors(settings.light_colors, initialSiteSettings.light_colors);
+  settings.dark_colors = normalizeSiteColors(settings.dark_colors, initialSiteSettings.dark_colors);
+  return settings;
 }
 
 export async function updateSiteSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {
@@ -436,10 +445,20 @@ export async function updateSiteSettings(settings: Partial<SiteSettings>): Promi
       .eq('id', 'site-settings-main')
       .select()
       .single();
-    if (!error && data) return data as SiteSettings;
+    if (error) {
+      console.error('Supabase site settings update failed:', error);
+      throw new Error('Failed to update site settings in the database');
+    }
+    if (!data) throw new Error('Site settings could not be found in the database');
+    const updated = { ...initialSiteSettings, ...data } as SiteSettings;
+    updated.light_colors = normalizeSiteColors(data.light_colors, initialSiteSettings.light_colors);
+    updated.dark_colors = normalizeSiteColors(data.dark_colors, initialSiteSettings.dark_colors);
+    return updated;
   }
   const state = getLocalState();
-  state.siteSettings = { ...state.siteSettings, ...settings };
+  state.siteSettings = { ...initialSiteSettings, ...state.siteSettings, ...settings };
+  state.siteSettings.light_colors = normalizeSiteColors(state.siteSettings.light_colors, initialSiteSettings.light_colors);
+  state.siteSettings.dark_colors = normalizeSiteColors(state.siteSettings.dark_colors, initialSiteSettings.dark_colors);
   saveLocalState(state);
   return state.siteSettings;
 }

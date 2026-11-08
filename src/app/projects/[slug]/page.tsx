@@ -6,9 +6,7 @@ import {
   ExternalLink,
   Layers,
   CheckCircle2,
-  Calendar,
   Cpu,
-  ShieldCheck,
   Sparkles,
 } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';

@@ -9,7 +9,6 @@ import {
   AlertCircle,
   Loader2,
   Clock,
-  Sparkles,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 import { useGSAP, gsap } from '@/lib/animations/gsap';

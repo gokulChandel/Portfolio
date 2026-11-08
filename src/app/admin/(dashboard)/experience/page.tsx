@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Briefcase,
   Plus,
   Pencil,
   Trash2,
@@ -42,7 +41,6 @@ export default function AdminExperiencePage() {
 
   const fetchExperiences = async () => {
     try {
-      setLoading(true);
       const res = await fetch('/api/admin/experience');
       if (res.ok) {
         const data = await res.json();
@@ -56,7 +54,9 @@ export default function AdminExperiencePage() {
   };
 
   useEffect(() => {
-    fetchExperiences();
+    queueMicrotask(() => {
+      void fetchExperiences();
+    });
   }, []);
 
   const openAddModal = () => {

@@ -7,12 +7,10 @@ import {
   Plus,
   Pencil,
   Trash2,
-  Calendar,
   Loader2,
   CheckCircle2,
   AlertCircle,
   X,
-  ExternalLink,
 } from 'lucide-react';
 import { Education, Certification } from '@/types';
 
@@ -52,7 +50,6 @@ export default function AdminEducationPage() {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const [eduRes, certRes] = await Promise.all([
         fetch('/api/admin/education'),
         fetch('/api/admin/certifications'),
@@ -71,7 +68,9 @@ export default function AdminEducationPage() {
   };
 
   useEffect(() => {
-    fetchData();
+    queueMicrotask(() => {
+      void fetchData();
+    });
   }, []);
 
   // Education Handlers

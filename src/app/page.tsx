@@ -45,12 +45,17 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="relative min-h-screen bg-[#080B12] text-[#F8FAFC] overflow-hidden selection:bg-violet-600/30 selection:text-white">
+    <div className="relative min-h-screen overflow-x-clip text-[#F8FAFC] selection:bg-violet-600/30 selection:text-white">
+      <div className="portfolio-starfield" aria-hidden="true">
+        <span className="portfolio-star-layer portfolio-star-layer-distant" />
+        <span className="portfolio-star-layer portfolio-star-layer-near" />
+      </div>
+
       {/* Sticky Top Navigation */}
       <Navbar resumeUrl={profile.resume_url} name={profile.name} />
 
       {/* Main Sections */}
-      <main className="relative z-10 flex flex-col">
+      <main className="relative z-10 isolate flex flex-col">
         <Hero profile={profile} />
         <About profile={profile} />
         <Skills skills={skills} categories={skillCategories} />
@@ -62,14 +67,16 @@ export default async function HomePage() {
       </main>
 
       {/* Footer */}
-      <Footer
-        name={profile.name}
-        title={profile.title}
-        footerText={siteSettings.footer_text}
-        githubUrl={profile.github_url}
-        linkedinUrl={profile.linkedin_url}
-        email={profile.email}
-      />
+      <div className="relative z-10">
+        <Footer
+          name={profile.name}
+          title={profile.title}
+          footerText={siteSettings.footer_text}
+          githubUrl={profile.github_url}
+          linkedinUrl={profile.linkedin_url}
+          email={profile.email}
+        />
+      </div>
     </div>
   );
 }

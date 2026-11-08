@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Save, Loader2, CheckCircle2, AlertCircle, RefreshCw, User, Briefcase, Mail, MapPin } from 'lucide-react';
+import { Save, Loader2, CheckCircle2, AlertCircle, User, Briefcase, Mail } from 'lucide-react';
 import { Profile } from '@/types';
 
 export default function AdminProfilePage() {
@@ -12,7 +12,6 @@ export default function AdminProfilePage() {
 
   const fetchProfile = async () => {
     try {
-      setLoading(true);
       const res = await fetch('/api/admin/profile');
       if (res.ok) {
         const data = await res.json();
@@ -26,7 +25,9 @@ export default function AdminProfilePage() {
   };
 
   useEffect(() => {
-    fetchProfile();
+    queueMicrotask(() => {
+      void fetchProfile();
+    });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

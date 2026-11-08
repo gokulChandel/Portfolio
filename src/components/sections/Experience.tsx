@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle2, Sparkles, Building2, Terminal } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle2, Building2, Terminal } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
+import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 import { Experience } from '@/types';
 
 interface ExperienceProps {
@@ -80,7 +81,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
             Professional Engineering Experience
           </h2>
           <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            A chronological timeline of my full-time engineering experience building enterprise web platforms, robust REST APIs, and database-driven digital workspaces.
+            A chronological timeline of my professional experience, from hands-on MERN training to building enterprise platforms, secure APIs, and database-driven products.
           </p>
         </div>
 
@@ -92,14 +93,29 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
           <div className="timeline-progress-bar absolute left-0 top-3 bottom-3 w-1 bg-gradient-to-b from-violet-500 via-cyan-400 to-emerald-400 rounded-full" />
 
           {experiences.map((exp) => (
-            <div key={exp.id} className="timeline-item relative group">
-              {/* Timeline Pin/Dot */}
-              <div className="absolute -left-[30px] sm:-left-[54px] top-2 w-7 h-7 rounded-full bg-[#080B12] border-2 border-violet-500 flex items-center justify-center group-hover:scale-125 group-hover:border-cyan-400 transition-all shadow-md shadow-violet-500/30">
-                <div className="w-2.5 h-2.5 rounded-full bg-violet-400 group-hover:bg-cyan-400 transition-colors animate-pulse" />
-              </div>
+            <ExperienceTimelineItem key={exp.id} experience={exp} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-              {/* Experience Card */}
-              <div className="p-6 sm:p-10 rounded-3xl bg-[#111827]/90 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card space-y-6">
+function ExperienceTimelineItem({ experience: exp }: { experience: Experience }) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
+  return (
+    <div className="timeline-item relative group">
+      {/* Timeline Pin/Dot */}
+      <div className="absolute -left-[30px] sm:-left-[54px] top-2 w-7 h-7 rounded-full bg-[#080B12] border-2 border-violet-500 flex items-center justify-center group-hover:scale-125 group-hover:border-cyan-400 transition-all shadow-md shadow-violet-500/30">
+        <div className="w-2.5 h-2.5 rounded-full bg-violet-400 group-hover:bg-cyan-400 transition-colors animate-pulse" />
+      </div>
+
+      {/* Experience Card */}
+      <div
+        ref={cardRef}
+        className="experience-card tilt-card p-6 sm:p-10 rounded-3xl bg-[#111827]/90 border border-white/[0.08] hover:border-violet-500/40 transition-all space-y-6"
+      >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-white/[0.06]">
                   <div>
                     <div className="flex flex-wrap items-center gap-3">
@@ -167,11 +183,7 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
                     </span>
                   ))}
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
-    </section>
+    </div>
   );
 }

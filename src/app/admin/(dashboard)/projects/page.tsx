@@ -3,11 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  FolderKanban,
   Plus,
   Pencil,
   Trash2,
-  Check,
   X,
   Loader2,
   ExternalLink,
@@ -48,7 +46,6 @@ export default function AdminProjectsPage() {
 
   const fetchProjects = async () => {
     try {
-      setLoading(true);
       const res = await fetch('/api/admin/projects');
       if (res.ok) {
         const data = await res.json();
@@ -62,7 +59,9 @@ export default function AdminProjectsPage() {
   };
 
   useEffect(() => {
-    fetchProjects();
+    queueMicrotask(() => {
+      void fetchProjects();
+    });
   }, []);
 
   const openAddModal = () => {

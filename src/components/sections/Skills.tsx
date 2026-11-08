@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Code,
   Globe,
@@ -27,12 +27,8 @@ import {
   Send,
   CodeXml,
   Search,
-  CheckCircle2,
-  Layers,
-  ArrowUpRight,
 } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
-import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { Skill, SkillCategory } from '@/types';
 
 interface SkillsProps {
@@ -198,42 +194,9 @@ const TECH_THEMES: Record<
 };
 
 export default function Skills({ skills, categories }: SkillsProps) {
-  const containerRef = useRef<HTMLElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'bento' | 'matrix'>('bento');
-
-  useGSAP(
-    () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        return;
-      }
-
-      gsap.from('.skills-header', {
-        scrollTrigger: {
-          trigger: '.skills-header',
-          start: 'top 85%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-
-      gsap.from('.skill-card-item', {
-        scrollTrigger: {
-          trigger: '.skills-display-container',
-          start: 'top 80%',
-        },
-        opacity: 0,
-        y: 20,
-        stagger: 0.04,
-        duration: 0.5,
-        ease: 'power2.out',
-      });
-    },
-    { scope: containerRef, dependencies: [selectedCategory, searchQuery, viewMode] }
-  );
 
   const iconMap: Record<string, React.ReactNode> = {
     Code: <Code className="w-5 h-5" />,
@@ -277,56 +240,63 @@ export default function Skills({ skills, categories }: SkillsProps) {
 
   return (
     <section
-      ref={containerRef}
       id="skills"
-      className="relative py-28 bg-[#080B12] border-t border-b border-white/[0.04]"
+      className="relative py-24 sm:py-28 bg-[#080B12] border-t border-b border-white/[0.04]"
     >
-      {/* Decorative ambient background glows */}
-      <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] bg-violet-600/5 blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-600/5 blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,rgba(124,58,237,0.12),transparent_36%),radial-gradient(ellipse_at_90%_75%,rgba(6,182,212,0.08),transparent_34%)] pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 relative z-10">
-        {/* Section Header */}
-        <div className="skills-header text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 inline-block font-semibold">
-            Core Technology & Tools
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Engineering Toolset & Architecture Stack
-          </h2>
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            A comprehensive, verified directory of modern frontend engines, backend microservices, database schemas, and DevOps pipelines leveraged across production systems.
-          </p>
-
-          {/* Quick Primary Stack Pills for Recruiters */}
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-2">
-            <span className="text-xs font-mono text-slate-500 uppercase tracking-wider mr-2">
-              Primary Production Stack:
-            </span>
-            {['React.js', 'Next.js', 'Node.js', 'Express.js', 'MongoDB', 'PostgreSQL', 'TypeScript', 'Docker'].map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-white/[0.04] border border-white/[0.08] text-slate-200"
-              >
-                {tech}
+        <div className="skills-header skills-reveal grid lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-10 sm:mb-12">
+          <div className="lg:col-span-7 space-y-5">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-cyan-400" />
+              <span className="text-xs font-mono text-cyan-300 uppercase tracking-[0.2em] font-semibold">
+                The toolkit
               </span>
-            ))}
+            </div>
+            <h2 className="max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.05em] leading-[1.02] text-white">
+              The tools behind <span className="text-gradient">the work.</span>
+            </h2>
+            <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl">
+              A practical mix of technologies I use to design, build, and ship
+              thoughtful digital products — from the interface to the database.
+            </p>
+          </div>
+
+          <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
+              <span className="block text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                {skills.length.toString().padStart(2, '0')}
+              </span>
+              <span className="mt-1 block text-[11px] sm:text-xs font-mono text-slate-400 uppercase tracking-wider">
+                Technologies
+              </span>
+            </div>
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
+              <span className="block text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                {categories.length.toString().padStart(2, '0')}
+              </span>
+              <span className="mt-1 block text-[11px] sm:text-xs font-mono text-slate-400 uppercase tracking-wider">
+                Skill areas
+              </span>
+            </div>
           </div>
         </div>
 
         {/* Filter, Search & View Controls */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-12 p-3 sm:p-4 rounded-2xl bg-[#111827]/60 border border-white/[0.08] backdrop-blur-md">
+        <div className="skills-reveal skills-reveal-delay-1 flex flex-col gap-4 mb-8 p-3 sm:p-4 rounded-2xl bg-[#111827]/70 border border-white/[0.08] backdrop-blur-md">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter skills by category">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold font-mono transition-all whitespace-nowrap cursor-pointer ${
+              aria-pressed={selectedCategory === 'all'}
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold font-mono transition-all whitespace-nowrap cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
+                  ? 'bg-violet-500 text-white shadow-md shadow-violet-600/25'
                   : 'bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.06]'
               }`}
             >
-              All Skills ({skills.length})
+              All skills <span className="ml-1 opacity-70">{skills.length}</span>
             </button>
             {categories.map((cat) => {
               const count = skills.filter((s) => s.category_id === cat.id).length;
@@ -334,37 +304,40 @@ export default function Skills({ skills, categories }: SkillsProps) {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-xl text-xs font-semibold font-mono transition-all whitespace-nowrap cursor-pointer ${
+                  aria-pressed={selectedCategory === cat.id}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold font-mono transition-all whitespace-nowrap cursor-pointer ${
                     selectedCategory === cat.id
-                      ? 'bg-violet-600 text-white shadow-md shadow-violet-600/30'
+                      ? 'bg-violet-500 text-white shadow-md shadow-violet-600/25'
                       : 'bg-white/[0.03] text-slate-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.06]'
                   }`}
                 >
-                  {cat.name} ({count})
+                  {cat.name} <span className="ml-1 opacity-70">{count}</span>
                 </button>
               );
             })}
           </div>
 
           {/* Search Input & View Mode Toggle */}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 sm:w-64">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 border-t border-white/[0.06] pt-3">
+            <label className="relative flex-1">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-xs text-white placeholder-slate-500 outline-none focus:border-violet-500 transition-all"
+                aria-label="Search skills"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-xs text-white placeholder-slate-500 outline-none focus:border-violet-500 transition-all"
               />
-            </div>
+            </label>
 
-            <div className="flex items-center p-1 rounded-xl bg-white/[0.04] border border-white/[0.08] shrink-0">
+            <div className="flex items-center self-start sm:self-auto p-1 rounded-xl bg-white/[0.04] border border-white/[0.08] shrink-0" role="group" aria-label="Skill layout">
               <button
                 onClick={() => setViewMode('bento')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                aria-pressed={viewMode === 'bento'}
+                className={`px-3.5 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
                   viewMode === 'bento'
-                    ? 'bg-violet-600 text-white'
+                    ? 'bg-violet-500 text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -372,9 +345,10 @@ export default function Skills({ skills, categories }: SkillsProps) {
               </button>
               <button
                 onClick={() => setViewMode('matrix')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                aria-pressed={viewMode === 'matrix'}
+                className={`px-3.5 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
                   viewMode === 'matrix'
-                    ? 'bg-violet-600 text-white'
+                    ? 'bg-violet-500 text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -387,31 +361,34 @@ export default function Skills({ skills, categories }: SkillsProps) {
         {/* Display Container */}
         <div className="skills-display-container">
           {viewMode === 'bento' && selectedCategory === 'all' && searchQuery.trim() === '' ? (
-            /* Categorized Bento View: Groups into distinct domain sections */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="skills-category-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
               {categories.map((cat) => {
                 const catSkills = skills.filter((s) => s.category_id === cat.id);
                 return (
                   <div
                     key={cat.id}
-                    className="p-6 sm:p-7 rounded-3xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card flex flex-col justify-between"
+                    className="skill-category-card skills-reveal relative overflow-hidden p-5 sm:p-6 rounded-3xl bg-[#101522]/90 border border-white/[0.08] hover:border-violet-400/30 hover:bg-[#121a2b] transition-all duration-300"
                   >
-                    <div className="space-y-4">
-                      {/* Category Header */}
-                      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                        <div className="flex items-center gap-2.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-violet-400 animate-pulse" />
-                          <h3 className="text-base font-bold text-white tracking-tight">
-                            {cat.name}
-                          </h3>
+                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-violet-400/50 via-cyan-300/20 to-transparent" />
+                    <div className="relative">
+                      <div className="flex items-center justify-between gap-3 pb-4 border-b border-white/[0.07]">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="h-9 w-1 rounded-full bg-gradient-to-b from-violet-400 to-cyan-400" />
+                          <div>
+                            <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                              {cat.name}
+                            </h3>
+                            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.15em]">
+                              Technical domain
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-xs font-mono text-slate-400 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.06]">
-                          {catSkills.length} Technologies
+                        <span className="text-xs font-mono text-slate-400 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] shrink-0">
+                          {catSkills.length}
                         </span>
                       </div>
 
-                      {/* Skills List in Bento Card */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-4">
                         {catSkills.map((skill) => {
                           const theme = TECH_THEMES[skill.name] || {
                             color: '#8B5CF6',
@@ -422,29 +399,26 @@ export default function Skills({ skills, categories }: SkillsProps) {
                           return (
                             <div
                               key={skill.id}
-                              className={`skill-card-item group p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] ${theme.borderHover} hover:bg-white/[0.04] transition-all flex items-center justify-between gap-2`}
+                              className={`group/skill min-w-0 flex items-center gap-3 p-3 rounded-xl bg-white/[0.025] border border-white/[0.06] ${theme.borderHover} hover:bg-white/[0.05] transition-all`}
                             >
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                <div
-                                  className={`w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${theme.bgHover}`}
-                                  style={{ color: theme.color }}
-                                >
-                                  {iconMap[skill.icon || 'Code'] || (
-                                    <Code className="w-4 h-4" />
-                                  )}
-                                </div>
-                                <span className="text-xs font-semibold text-slate-200 group-hover:text-white truncate">
+                              <div
+                                className={`w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover/skill:scale-105 ${theme.bgHover}`}
+                                style={{ color: theme.color }}
+                              >
+                                {iconMap[skill.icon || 'Code'] || (
+                                  <Code className="w-4 h-4" />
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <span className="block text-xs sm:text-[13px] font-semibold text-slate-200 group-hover/skill:text-white truncate">
                                   {skill.name}
                                 </span>
+                                {skill.proficiency_label && (
+                                  <span className={`mt-1 inline-block text-[9px] leading-4 font-mono px-1.5 rounded border ${theme.pill}`}>
+                                    {skill.proficiency_label}
+                                  </span>
+                                )}
                               </div>
-
-                              {skill.proficiency_label && (
-                                <span
-                                  className={`text-[10px] font-mono px-2 py-0.5 rounded-md border shrink-0 ${theme.pill}`}
-                                >
-                                  {skill.proficiency_label}
-                                </span>
-                              )}
                             </div>
                           );
                         })}
@@ -455,8 +429,7 @@ export default function Skills({ skills, categories }: SkillsProps) {
               })}
             </div>
           ) : (
-            /* Matrix View: Multi-column Card Showcase with Full Badges */
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
               {filteredSkills.map((skill) => {
                 const theme = TECH_THEMES[skill.name] || {
                   color: '#8B5CF6',
@@ -467,41 +440,28 @@ export default function Skills({ skills, categories }: SkillsProps) {
                 return (
                   <div
                     key={skill.id}
-                    className={`skill-card-item group p-5 rounded-2xl bg-[#111827]/80 border border-white/[0.08] ${theme.borderHover} hover:bg-[#111827] transition-all flex flex-col justify-between glow-card`}
+                    className={`group min-w-0 p-4 sm:p-5 rounded-2xl bg-[#101522]/90 border border-white/[0.08] ${theme.borderHover} hover:bg-[#121a2b] transition-all flex items-center gap-4`}
                   >
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <div
-                          className={`w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${theme.bgHover}`}
-                          style={{ color: theme.color }}
-                        >
-                          {iconMap[skill.icon || 'Code'] || (
-                            <Code className="w-5 h-5" />
-                          )}
-                        </div>
-
-                        {skill.proficiency_label && (
-                          <span
-                            className={`text-[10px] font-mono font-medium px-2.5 py-0.5 rounded-full border ${theme.pill}`}
-                          >
-                            {skill.proficiency_label}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="space-y-0.5">
-                        <h4 className="text-base font-bold text-white group-hover:text-violet-300 transition-colors">
-                          {skill.name}
-                        </h4>
-                        <p className="text-[11px] font-mono text-slate-400">
-                          {skill.category_name || 'Technical Domain'}
-                        </p>
-                      </div>
+                    <div
+                      className={`w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${theme.bgHover}`}
+                      style={{ color: theme.color }}
+                    >
+                      {iconMap[skill.icon || 'Code'] || (
+                        <Code className="w-5 h-5" />
+                      )}
                     </div>
-
-                    <div className="pt-3 mt-3 border-t border-white/[0.04] flex items-center justify-between text-[11px] font-mono text-slate-500">
-                      <span>Production Ready</span>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <div className="min-w-0">
+                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-violet-300 transition-colors truncate">
+                        {skill.name}
+                      </h4>
+                      <p className="mt-1 text-[11px] font-mono text-slate-400 truncate">
+                        {skill.category_name || 'Technical Domain'}
+                      </p>
+                      {skill.proficiency_label && (
+                        <span className={`mt-2 inline-block text-[10px] font-mono px-2 py-0.5 rounded-full border ${theme.pill}`}>
+                          {skill.proficiency_label}
+                        </span>
+                      )}
                     </div>
                   </div>
                 );

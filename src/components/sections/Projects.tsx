@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Layers, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { Project } from '@/types';
 import ProjectCard from '@/components/projects/ProjectCard';

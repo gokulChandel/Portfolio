@@ -5,14 +5,17 @@ import Link from 'next/link';
 import { ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { Project } from '@/types';
+import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
   return (
-    <div className="project-card group relative rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card">
+    <div ref={cardRef} className="project-card tilt-card group relative rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card">
       <div>
         {/* Project Thumbnail / Header illustration */}
         <div className="relative aspect-video w-full bg-[#0D1220] overflow-hidden border-b border-white/[0.06] flex items-center justify-center">

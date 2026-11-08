@@ -17,7 +17,6 @@ import {
   Menu,
   X,
   ChevronRight,
-  ShieldAlert,
 } from 'lucide-react';
 
 interface ShellProps {

@@ -11,7 +11,7 @@ import {
   Target,
   Compass,
 } from 'lucide-react';
-import { useGSAP, gsap, ScrollTrigger } from '@/lib/animations/gsap';
+import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { Profile } from '@/types';
 
 interface AboutProps {

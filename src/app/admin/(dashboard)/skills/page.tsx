@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Code2,
   Plus,
@@ -11,7 +11,6 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle2,
-  Layers,
 } from 'lucide-react';
 import { Skill, SkillCategory } from '@/types';
 
@@ -37,9 +36,8 @@ export default function AdminSkillsPage() {
     is_active: true,
   });
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      setLoading(true);
       const res = await fetch('/api/admin/skills');
       if (res.ok) {
         const data = await res.json();
@@ -54,11 +52,13 @@ export default function AdminSkillsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [formData.category_id]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    queueMicrotask(() => {
+      void fetchData();
+    });
+  }, [fetchData]);
 
   const openAddModal = () => {
     setEditingSkill(null);

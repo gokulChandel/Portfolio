@@ -7,12 +7,9 @@ import {
   CheckCircle2,
   Trash2,
   Mail,
-  Clock,
   Loader2,
   X,
-  AlertCircle,
   Eye,
-  Check,
 } from 'lucide-react';
 import { ContactMessage } from '@/types';
 
@@ -28,7 +25,6 @@ export default function AdminMessagesPage() {
 
   const fetchMessages = async () => {
     try {
-      setLoading(true);
       const res = await fetch('/api/admin/messages');
       if (res.ok) {
         const data = await res.json();
@@ -42,7 +38,9 @@ export default function AdminMessagesPage() {
   };
 
   useEffect(() => {
-    fetchMessages();
+    queueMicrotask(() => {
+      void fetchMessages();
+    });
   }, []);
 
   const handleStatusChange = async (id: string, newStatus: 'unread' | 'read' | 'resolved') => {

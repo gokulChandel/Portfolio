@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import crypto from 'crypto';
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@gokulchandel.dev';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin12345';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123456';
 const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || 'dev-secret-session-key-gokul-chandel-portfolio-2026';
 const COOKIE_NAME = 'admin_session_token';
 

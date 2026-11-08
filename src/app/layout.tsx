@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { getSiteSettings } from '@/lib/data/store';
+import { getColorCssVariables } from '@/lib/siteColorThemes';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -71,11 +73,13 @@ export const metadata: Metadata = {
 
 import SpotlightGlow from '@/components/ui/SpotlightGlow';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const siteSettings = await getSiteSettings();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -104,7 +108,13 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
+    <html
+      lang="en"
+      data-colors="true"
+      style={getColorCssVariables(siteSettings.light_colors, siteSettings.dark_colors)}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{

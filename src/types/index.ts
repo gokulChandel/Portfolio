@@ -122,6 +122,19 @@ export interface ContactMessage {
   created_at: string;
 }
 
+export interface SiteColors {
+  background: string;
+  surface: string;
+  card: string;
+  text: string;
+  secondaryText: string;
+  mutedText: string;
+  accent: string;
+  accentSecondary: string;
+  highlight: string;
+  buttonText: string;
+}
+
 export interface SiteSettings {
   id: string;
   site_title: string;
@@ -130,6 +143,8 @@ export interface SiteSettings {
   og_image?: string;
   footer_text: string;
   is_hireable: boolean;
+  light_colors: SiteColors;
+  dark_colors: SiteColors;
   resume_url: string;
   social_links: {
     github: string;

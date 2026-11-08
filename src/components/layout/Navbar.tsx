@@ -23,6 +23,9 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerPositionClass = 'relative z-50 mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1440px]';
+  // To pin the header while scrolling, swap the line above for:
+  // const headerPositionClass = 'fixed top-3 left-3 right-3 z-50';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,10 +52,11 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      data-scrolled={isScrolled}
+      className={`site-navbar ${headerPositionClass} transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#080B12]/85 backdrop-blur-md border-b border-white/[0.08] shadow-lg shadow-black/20 py-3.5'
-          : 'bg-transparent py-5'
+          ? 'bg-[#080B12]/85 backdrop-blur-xl border border-white/[0.08] shadow-lg shadow-black/20 rounded-2xl py-2.5'
+          : 'bg-transparent py-2.5'
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16">
@@ -60,23 +64,23 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
           {/* Logo / Brand */}
           <Link
             href="/#hero"
-            className="flex items-center gap-2.5 group focus:outline-none"
+            className="flex items-center gap-2.5 group"
           >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center font-bold text-white text-base shadow-md shadow-violet-500/20 group-hover:scale-105 transition-transform">
+            <div className="site-brand-mark w-9 h-9 rounded-lg flex items-center justify-center font-bold text-base shadow-md group-hover:scale-105 transition-transform">
               GC
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-slate-100 group-hover:text-violet-400 transition-colors tracking-tight text-sm sm:text-base">
+              <span className="site-brand-name font-semibold transition-colors tracking-tight text-sm sm:text-base">
                 {name}
               </span>
-              <span className="text-[11px] text-slate-400 font-mono hidden sm:inline-block">
+              <span className="site-brand-role text-[11px] font-mono hidden sm:inline-block">
                 Full Stack Developer
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm">
+          <nav className="site-desktop-nav hidden lg:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm">
             {NAV_ITEMS.map((item) => {
               const sectionId = item.href.replace('/#', '');
               const isActive = activeSection === sectionId;
@@ -84,10 +88,10 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  className={`site-nav-link px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-violet-600 text-white shadow-sm shadow-violet-500/30'
-                      : 'text-slate-300 hover:text-white hover:bg-white/[0.06]'
+                      ? 'site-nav-active shadow-sm'
+                      : ''
                   }`}
                 >
                   {item.label}
@@ -105,7 +109,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
               target="_blank"
               rel="noopener noreferrer"
               download
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-violet-600 to-violet-500 text-white hover:from-violet-500 hover:to-violet-400 transition-all shadow-md shadow-violet-600/20 hover:shadow-violet-600/35 hover:-translate-y-0.5"
+              className="site-resume-button hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:-translate-y-0.5"
             >
               <FileDown className="w-3.5 h-3.5" />
               <span>Resume</span>
@@ -114,8 +118,9 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 md:hidden focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="site-menu-button p-2 rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-violet-500"
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -125,7 +130,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-4 pt-3 pb-6 bg-[#080B12]/95 backdrop-blur-xl border-b border-white/10 space-y-2 mt-3 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="site-mobile-drawer lg:hidden px-4 pt-3 pb-6 bg-[#080B12]/95 backdrop-blur-xl border border-white/10 rounded-2xl space-y-2 mt-3 animate-in fade-in slide-in-from-top-4 duration-200">
           <div className="flex flex-col space-y-1">
             {NAV_ITEMS.map((item) => {
               const sectionId = item.href.replace('/#', '');
@@ -135,10 +140,10 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`site-mobile-nav-link px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-violet-600/20 text-violet-400 border border-violet-500/30'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      ? 'site-nav-active'
+                      : ''
                   }`}
                 >
                   {item.label}
@@ -153,7 +158,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
               target="_blank"
               rel="noopener noreferrer"
               download
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold bg-violet-600 text-white hover:bg-violet-500"
+              className="site-resume-button w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold"
             >
               <FileDown className="w-4 h-4" />
               <span>Download Resume</span>
@@ -161,7 +166,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
             <Link
               href="/admin/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 py-1"
+              className="site-admin-link flex items-center justify-center gap-1 text-[11px] text-slate-400 hover:text-slate-200 py-1"
             >
               <span>Admin Portal</span>
               <ArrowUpRight className="w-3 h-3" />

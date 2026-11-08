@@ -8,10 +8,8 @@ import {
   ArrowRight,
   Database,
   CheckCircle2,
-  AlertCircle,
   ExternalLink,
   PlusCircle,
-  Clock,
 } from 'lucide-react';
 import {
   getProjects,
