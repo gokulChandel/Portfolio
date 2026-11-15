@@ -19,7 +19,7 @@ export default function Footer({
   title = 'Full Stack Developer',
   footerText = '© 2026 Gokul Chandel. Engineered for performance and clean architecture.',
   githubUrl = 'https://github.com/gokulchandel',
-  linkedinUrl = 'https://linkedin.com/in/gokulchandel',
+  linkedinUrl = 'https://www.linkedin.com/in/gokul-chandel/',
   email = 'gokulchandel25@gmail.com',
 }: FooterProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);

@@ -22,7 +22,7 @@ export const initialProfile: Profile = {
   location: 'India',
   email: 'gokulchandel25@gmail.com',
   github_url: 'https://github.com/gokulchandel',
-  linkedin_url: 'https://linkedin.com/in/gokulchandel',
+  linkedin_url: 'https://www.linkedin.com/in/gokul-chandel/',
   resume_url: '/resume.pdf',
   availability_status: 'Available for opportunities',
   about_paragraphs: [
@@ -414,7 +414,7 @@ export const initialSiteSettings: SiteSettings = {
   resume_url: '/resume.pdf',
   social_links: {
     github: 'https://github.com/gokulchandel',
-    linkedin: 'https://linkedin.com/in/gokulchandel',
+    linkedin: 'https://www.linkedin.com/in/gokul-chandel/',
     email: 'gokulchandel25@gmail.com',
   },
 };

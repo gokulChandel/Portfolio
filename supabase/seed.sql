@@ -19,7 +19,7 @@ INSERT INTO public.profiles (
   'India',
   'gokulchandel.dev@gmail.com',
   'https://github.com/gokulchandel',
-  'https://linkedin.com/in/gokulchandel',
+  'https://www.linkedin.com/in/gokul-chandel/',
   '/resume.pdf',
   'Available for opportunities',
   '["I am a Full Stack Developer with 2+ years of professional experience engineering resilient web applications and backend systems at Parkhya Solutions Pvt. Ltd.", "My core expertise revolves around the MERN stack (MongoDB, Express.js, React.js, Node.js), modern Next.js architectures, TypeScript, and relational databases like PostgreSQL. I am passionate about crafting clean system architectures, reusable component design systems, and efficient RESTful APIs.", "I focus on solving real-world business challenges through scalable software solutions, rigorous performance optimization, clean code principles, and intuitive user experiences."]'::jsonb,
@@ -31,7 +31,9 @@ INSERT INTO public.profiles (
     {"label": "Modern Web", "sublabel": "React, TypeScript, Tailwind", "icon": "Code2"},
     {"label": "Scalable Systems", "sublabel": "REST APIs & Clean DB Design", "icon": "Server"}
   ]'::jsonb
-) ON CONFLICT (id) DO UPDATE SET updated_at = now();
+) ON CONFLICT (id) DO UPDATE SET
+  linkedin_url = EXCLUDED.linkedin_url,
+  updated_at = now();
 
 -- 2. Skill Categories
 INSERT INTO public.skill_categories (id, name, display_order) VALUES
@@ -208,5 +210,11 @@ INSERT INTO public.site_settings (
   '© 2026 Gokul Chandel. Engineered for performance and clean architecture.',
   true,
   '/resume.pdf',
-  '{"github": "https://github.com/gokulchandel", "linkedin": "https://linkedin.com/in/gokulchandel", "email": "gokulchandel.dev@gmail.com"}'::jsonb
-) ON CONFLICT (id) DO NOTHING;
+  '{"github": "https://github.com/gokulchandel", "linkedin": "https://www.linkedin.com/in/gokul-chandel/", "email": "gokulchandel.dev@gmail.com"}'::jsonb
+) ON CONFLICT (id) DO UPDATE SET
+  social_links = jsonb_set(
+    COALESCE(site_settings.social_links, '{}'::jsonb),
+    '{linkedin}',
+    to_jsonb('https://www.linkedin.com/in/gokul-chandel/'::text),
+    true
+  );

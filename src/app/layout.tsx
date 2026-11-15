@@ -92,7 +92,7 @@ export default async function RootLayout({
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     sameAs: [
       'https://github.com/gokulchandel',
-      'https://linkedin.com/in/gokulchandel',
+      'https://www.linkedin.com/in/gokul-chandel/',
     ],
     knowsAbout: [
       'React.js',

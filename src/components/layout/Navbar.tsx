@@ -23,9 +23,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const headerPositionClass = 'relative z-50 mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1440px]';
-  // To pin the header while scrolling, swap the line above for:
-  // const headerPositionClass = 'fixed top-3 left-3 right-3 z-50';
+  const headerPositionClass = 'sticky top-3 z-50 mx-auto mt-3 w-[calc(100%-1.5rem)] max-w-[1440px]';
 
   useEffect(() => {
     const handleScroll = () => {
