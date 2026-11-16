@@ -34,6 +34,10 @@ export default function SpotlightGlow() {
       duration: reduceMotion ? 0.01 : 0.32,
       ease: 'power3.out',
     });
+    const rotateCursor = gsap.quickTo(cursor, 'rotation', {
+      duration: reduceMotion ? 0.01 : 0.28,
+      ease: 'power2.out',
+    });
     const moveDotX = gsap.quickTo(cursorDot, 'x', {
       duration: reduceMotion ? 0.01 : 0.08,
       ease: 'power2.out',
@@ -44,11 +48,17 @@ export default function SpotlightGlow() {
     });
 
     gsap.set([spotlight, cursor, cursorDot], { xPercent: -50, yPercent: -50 });
+    let previousPointer = { x: 0, y: 0 };
 
     const handlePointerMove = (event: PointerEvent) => {
+      const velocityX = event.clientX - previousPointer.x;
+      const velocityY = event.clientY - previousPointer.y;
+      previousPointer = { x: event.clientX, y: event.clientY };
+
       if (!reduceMotion) {
         moveSpotlightX(event.clientX);
         moveSpotlightY(event.clientY);
+        rotateCursor(Math.atan2(velocityY, velocityX) * (180 / Math.PI));
         spotlight.classList.add('is-visible');
       }
       moveCursorX(event.clientX);

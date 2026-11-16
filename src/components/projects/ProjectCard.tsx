@@ -15,7 +15,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const cardRef = usePointerTilt<HTMLDivElement>();
 
   return (
-    <div ref={cardRef} className="project-card tilt-card group relative rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card">
+    <div ref={cardRef} className="project-card tilt-card group relative h-full min-w-0 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card">
       <div>
         {/* Project Thumbnail / Header illustration */}
         <div className="relative aspect-video w-full bg-[#0D1220] overflow-hidden border-b border-white/[0.06] flex items-center justify-center">

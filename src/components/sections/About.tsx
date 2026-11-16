@@ -38,14 +38,13 @@ export default function About({ profile }: AboutProps) {
         ease: 'power3.out',
       });
 
-      gsap.from('.about-card', {
+      gsap.from('.about-grid', {
         scrollTrigger: {
           trigger: '.about-grid',
           start: 'top 80%',
         },
         opacity: 0,
-        y: 40,
-        stagger: 0.15,
+        y: 18,
         duration: 0.8,
         ease: 'power3.out',
       });

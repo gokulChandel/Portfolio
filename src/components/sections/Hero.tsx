@@ -1,21 +1,21 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
   FileDown,
   Mail,
-  Terminal,
-  Code2,
-  Cpu,
   CheckCircle2,
-  Copy,
-  Check,
+  Sparkles,
+  Layers,
+  Database,
+  Network,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
+import AntigravityParticles from '@/components/ui/AntigravityParticles';
+import FallingText from '@/components/ui/FallingText';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
-import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 import { Profile } from '@/types';
 
 interface HeroProps {
@@ -24,9 +24,6 @@ interface HeroProps {
 
 export default function Hero({ profile }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
-  const codeCardRef = usePointerTilt<HTMLDivElement>();
-  const [activeCodeTab, setActiveCodeTab] = useState<'stack' | 'api' | 'docker'>('stack');
-  const [copied, setCopied] = useState(false);
 
   // GSAP Entrance Animations
   useGSAP(
@@ -76,12 +73,18 @@ export default function Hero({ profile }: HeroProps) {
           );
       });
 
-      tl.from('.hero-heading', {
-        opacity: 0,
-        y: 22,
-        duration: 0.65,
-        ease: 'power3.out',
-      })
+      tl.from(
+        '.hero-heading .falling-letter',
+        {
+          opacity: 0,
+          yPercent: -125,
+          rotation: 8,
+          duration: 0.72,
+          stagger: 0.035,
+          ease: 'bounce.out',
+        },
+        0
+      )
         .from(
           '.hero-badge',
           {
@@ -120,10 +123,10 @@ export default function Hero({ profile }: HeroProps) {
           '-=0.5'
         )
         .from(
-          '.hero-code-card',
+          '.hero-showcase',
           {
             opacity: 0,
-            x: 40,
+            y: 18,
             duration: 1,
           },
           '-=0.7'
@@ -132,50 +135,41 @@ export default function Hero({ profile }: HeroProps) {
     { scope: containerRef }
   );
 
-  const copySnippet = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const triggerOrbitBurst = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const codeSnippets = {
-    stack: `// A little about me
-const developer = {
-  name: "${profile.name}",
-  role: "${profile.title}",
-  experience: "${profile.experience_years} years",
-  currently: "${profile.current_company}",
-  focus: ["React", "Next.js", "Node.js", "PostgreSQL"],
-  status: "${profile.availability_status}"
-};`,
-    api: `// Express REST API Route
-app.get("/api/v1/system/health", async (req, res) => {
-  const metrics = await db.monitor.getPerformance();
-  return res.status(200).json({
-    status: "optimal",
-    latency: "38ms",
-    dbConnection: "active"
-  });
-});`,
-    docker: `# Multi-stage production container
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]`,
+    const chips = gsap.utils.toArray<HTMLElement>(
+      containerRef.current?.querySelectorAll('.hero-orbit-chip') ?? []
+    );
+    gsap.to(chips, {
+      x: () => gsap.utils.random(-90, 90),
+      y: () => gsap.utils.random(-90, 90),
+      rotation: () => gsap.utils.random(-36, 36),
+      duration: 0.42,
+      stagger: 0.025,
+      ease: 'power2.out',
+      onComplete: () => {
+        gsap.to(chips, {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          duration: 0.95,
+          stagger: 0.025,
+          ease: 'elastic.out(1, 0.45)',
+        });
+      },
+    });
   };
 
   return (
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-[#080B12]"
+      className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#080B12] pt-24 pb-12 sm:pt-32 sm:pb-20"
     >
       <div className="hero-color-wash absolute inset-0 bg-[radial-gradient(ellipse_at_18%_18%,rgba(124,58,237,0.2),transparent_38%),radial-gradient(ellipse_at_85%_72%,rgba(6,182,212,0.12),transparent_34%)] pointer-events-none" />
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
+      <AntigravityParticles />
       <div className="hero-bottom-fade absolute inset-x-0 bottom-0 h-40 pointer-events-none" />
       <div className="hero-starfield absolute inset-0 pointer-events-none" aria-hidden="true">
         <span className="shooting-star shooting-star-one" />
@@ -184,7 +178,7 @@ CMD ["npm", "start"]`,
       </div>
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-12 items-center">
+        <div className="hero-layout grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
           {/* Left Column: Heading and CTAs */}
           <div className="lg:col-span-7 space-y-7">
             {/* Small Introduction & Availability badge */}
@@ -204,12 +198,14 @@ CMD ["npm", "start"]`,
 
             {/* Main Heading & Professional Title */}
             <div className="space-y-3">
-              <h1 className="hero-heading max-w-[13ch] text-5xl sm:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] leading-[0.94] font-extrabold tracking-[-0.065em] text-white">
-                {profile.name}
-              </h1>
+              <FallingText
+                text={profile.name}
+                className="hero-heading max-w-[13ch] text-5xl sm:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] leading-[0.94] font-extrabold tracking-[-0.065em] text-white"
+              />
               <h2 className="hero-title text-2xl sm:text-3xl lg:text-[2.4rem] font-bold tracking-tight">
                 {profile.title}
               </h2>
+              <p className="text-[10px] font-mono text-slate-500">Drag a letter to toss it</p>
             </div>
 
             {/* Dynamic Supporting Text & Short Description */}
@@ -234,13 +230,11 @@ CMD ["npm", "start"]`,
 
               <a
                 href={profile.resume_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                download
+                download="Download_Resume.pdf"
                 className="hero-action inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-slate-200 hover:text-white font-medium text-sm transition-all hover:-translate-y-0.5"
               >
                 <FileDown className="w-4 h-4 text-violet-300" />
-                <span>Download resume</span>
+                <span>Download Resume</span>
               </a>
 
               <a
@@ -296,89 +290,61 @@ CMD ["npm", "start"]`,
                 <span>{profile.location}</span>
               </div>
             </div>
+
           </div>
 
-          {/* Right Column: Interactive Technical Visual Element */}
           <div className="hero-visual relative isolate lg:col-span-5">
-            <div ref={codeCardRef} className="hero-code-card tilt-card relative rounded-[1.75rem] bg-[#0D1220]/90 border border-white/[0.1] shadow-[0_32px_100px_-32px_rgba(124,58,237,0.45)] backdrop-blur-xl overflow-hidden glow-card">
-              <div className="absolute -top-24 -right-20 h-52 w-52 rounded-full bg-violet-500/15 blur-3xl pointer-events-none" />
-              {/* Header Bar */}
-              <div className="relative flex items-center justify-between px-5 py-4 bg-[#080B12]/70 border-b border-white/[0.08]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400/90 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-300/90 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/90 inline-block" />
-                  <span className="text-xs font-mono text-slate-400 ml-2 flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5 text-violet-400" />
-                    gokul / portfolio.ts
-                  </span>
-                </div>
-                <button
-                  onClick={() => copySnippet(codeSnippets[activeCodeTab])}
-                  className="text-slate-400 hover:text-slate-200 transition-colors p-1"
-                  title="Copy code"
-                  aria-label={copied ? 'Code copied' : 'Copy code'}
-                >
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-              </div>
+            <button
+              type="button"
+              className="hero-showcase group"
+              onClick={triggerOrbitBurst}
+              aria-label="Click to scatter and gather the technology orbits"
+            >
+              <span className="hero-orbit hero-orbit-one" aria-hidden="true" />
+              <span className="hero-orbit hero-orbit-two" aria-hidden="true" />
+              <span className="hero-orbit hero-orbit-three" aria-hidden="true" />
+              <span className="hero-orb-core" aria-hidden="true">
+                <Sparkles className="h-9 w-9" />
+              </span>
+              <span className="hero-orbit-chip hero-chip-react">React</span>
+              <span className="hero-orbit-chip hero-chip-next">Next.js</span>
+              <span className="hero-orbit-chip hero-chip-node">Node.js</span>
+              <span className="hero-orbit-chip hero-chip-data">PostgreSQL</span>
+              <span className="hero-orbit-chip hero-chip-api">REST APIs</span>
+              <span className="hero-orbit-chip hero-chip-ts">TypeScript</span>
+              <span className="hero-orbit-prompt">Click to play with the stack</span>
+            </button>
 
-              {/* Code Tabs */}
-              <div className="relative flex items-center gap-1 px-4 pt-2 bg-[#080B12]/40 border-b border-white/[0.04]">
-                <button
-                  onClick={() => setActiveCodeTab('stack')}
-                  className={`px-3 py-1.5 rounded-t-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
-                    activeCodeTab === 'stack'
-                      ? 'bg-[#111827] text-violet-400 border-t-2 border-violet-500'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <Code2 className="w-3 h-3" />
-                  Profile.ts
-                </button>
-                <button
-                  onClick={() => setActiveCodeTab('api')}
-                  className={`px-3 py-1.5 rounded-t-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
-                    activeCodeTab === 'api'
-                      ? 'bg-[#111827] text-violet-400 border-t-2 border-violet-500'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <Terminal className="w-3 h-3" />
-                  API.js
-                </button>
-                <button
-                  onClick={() => setActiveCodeTab('docker')}
-                  className={`px-3 py-1.5 rounded-t-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
-                    activeCodeTab === 'docker'
-                      ? 'bg-[#111827] text-violet-400 border-t-2 border-violet-500'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <Cpu className="w-3 h-3" />
-                  Dockerfile
-                </button>
+            <div className="hero-showcase-stats">
+              <div className="hero-stat-card">
+                <Layers className="h-4 w-4 text-violet-300" />
+                <span><strong>{profile.experience_years}+</strong> years building</span>
               </div>
-
-              {/* Code Content */}
-              <div className="relative min-h-[15.5rem] p-5 sm:p-6 font-mono text-xs overflow-x-auto leading-7 text-slate-300">
-                <pre className="selection:bg-violet-500/30">
-                  <code>{codeSnippets[activeCodeTab]}</code>
-                </pre>
+              <div className="hero-stat-card">
+                <Database className="h-4 w-4 text-cyan-300" />
+                <span><strong>Production</strong> systems</span>
               </div>
-
-              {/* Interactive Status Footer */}
-              <div className="relative px-5 py-3 bg-[#080B12]/90 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>Node.js v20.x Active</span>
-                </div>
-                <div className="flex items-center gap-2 text-violet-400">
-                  <span>UTF-8</span>
-                  <span>TypeScript</span>
-                </div>
+              <div className="hero-stat-card">
+                <Network className="h-4 w-4 text-emerald-300" />
+                <span><strong>{profile.current_company}</strong></span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="hero-horizontal-text">
+          <p className="sr-only">Full-stack engineering, product thinking, and reliable systems</p>
+          <div className="hero-horizontal-track" aria-hidden="true">
+            {[0, 1].map((copy) => (
+              <div className="hero-horizontal-group" key={copy}>
+                <span>FULL-STACK ENGINEERING</span>
+                <span className="hero-horizontal-spark">+</span>
+                <span>PRODUCT THINKING</span>
+                <span className="hero-horizontal-spark">+</span>
+                <span>RELIABLE SYSTEMS</span>
+                <span className="hero-horizontal-spark">+</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

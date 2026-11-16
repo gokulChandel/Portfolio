@@ -30,6 +30,18 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
         ease: 'power3.out',
       });
 
+      gsap.from('.experience-heading-word', {
+        scrollTrigger: {
+          trigger: '.experience-heading',
+          start: 'top 85%',
+        },
+        opacity: 0,
+        yPercent: 110,
+        stagger: 0.075,
+        duration: 0.75,
+        ease: 'power3.out',
+      });
+
       gsap.from('.timeline-item', {
         scrollTrigger: {
           trigger: '.timeline-container',
@@ -58,6 +70,21 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
           },
         }
       );
+
+      gsap.to('.experience-waypoint-runner', {
+        motionPath: {
+          path: '#experience-waypoint-route',
+          align: '#experience-waypoint-route',
+          alignOrigin: [0.5, 0.5],
+        },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.timeline-container',
+          start: 'top 75%',
+          end: 'bottom 85%',
+          scrub: 0.5,
+        },
+      });
     },
     { scope: containerRef }
   );
@@ -77,8 +104,15 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
           <span className="text-xs font-mono text-violet-400 uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 inline-block font-semibold">
             Career Journey
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Professional Engineering Experience
+          <h2
+            aria-label="Professional Engineering Experience"
+            className="experience-heading flex flex-wrap justify-center gap-x-[0.28em] text-3xl sm:text-5xl font-extrabold tracking-tight text-white"
+          >
+            {'Professional Engineering Experience'.split(' ').map((word) => (
+              <span className="experience-heading-word inline-block" key={word} aria-hidden="true">
+                {word}
+              </span>
+            ))}
           </h2>
           <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
             A chronological timeline of my professional experience, from hands-on MERN training to building enterprise platforms, secure APIs, and database-driven products.
@@ -87,6 +121,22 @@ export default function ExperienceSection({ experiences }: ExperienceProps) {
 
         {/* Vertical Timeline */}
         <div className="timeline-container relative pl-6 sm:pl-12 space-y-12 ml-2 sm:ml-8 max-w-5xl mx-auto">
+          <svg
+            className="experience-waypoint-path"
+            viewBox="0 0 32 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              id="experience-waypoint-route"
+              d="M 16 0 C 25 18, 7 34, 16 50 S 25 82, 16 100"
+              pathLength="1"
+            />
+            <circle className="experience-waypoint" cx="16" cy="25" r="1.5" />
+            <circle className="experience-waypoint" cx="16" cy="50" r="1.5" />
+            <circle className="experience-waypoint" cx="16" cy="75" r="1.5" />
+            <circle className="experience-waypoint-runner" cx="16" cy="0" r="3" />
+          </svg>
           {/* Static track */}
           <div className="absolute left-0 top-3 bottom-3 w-1 bg-white/[0.08] rounded-full" />
           {/* Animated active progress bar */}

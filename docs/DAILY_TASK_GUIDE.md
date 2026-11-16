@@ -17,7 +17,7 @@ A practical operational guide for ongoing maintenance, content updates, database
 
 ### Quarterly
 - **Update Experience & Employment Dates**: Update the experience period and responsibilities in `/admin/experience`.
-- **Refresh Resume**: Overwrite `public/resume.pdf` with your updated resume, or upload to Supabase storage and update the link in `/admin/profile`.
+- **Refresh Resume**: Overwrite `public/Gokul_Resume.pdf` with your updated resume, or upload to Supabase storage and update the link in `/admin/profile`.
 - **Next.js & Package Updates**: Test minor updates (`npm update`) in a development branch.
 
 ---

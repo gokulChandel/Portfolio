@@ -66,6 +66,44 @@ function getInitialState(): LocalState {
   };
 }
 
+function getAvailableResumeUrl(resumeUrl: string | undefined): string {
+  const defaultResumeUrl = initialProfile.resume_url;
+  if (!resumeUrl) return defaultResumeUrl;
+
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(resumeUrl, 'http://portfolio.local');
+  } catch {
+    console.warn(`Invalid resume URL "${resumeUrl}", using ${defaultResumeUrl}.`);
+    return defaultResumeUrl;
+  }
+
+  if (parsedUrl.origin !== 'http://portfolio.local') return resumeUrl;
+
+  let pathname: string;
+  try {
+    pathname = decodeURIComponent(parsedUrl.pathname);
+  } catch {
+    console.warn(`Invalid resume path "${resumeUrl}", using ${defaultResumeUrl}.`);
+    return defaultResumeUrl;
+  }
+
+  const publicDirectory = path.resolve(process.cwd(), 'public');
+  const filePath = path.resolve(publicDirectory, `.${pathname}`);
+  const relativePath = path.relative(publicDirectory, filePath);
+  const isInsidePublicDirectory =
+    relativePath !== '..' &&
+    !relativePath.startsWith(`..${path.sep}`) &&
+    !path.isAbsolute(relativePath);
+
+  if (isInsidePublicDirectory && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    return resumeUrl;
+  }
+
+  console.warn(`Resume file "${resumeUrl}" was not found in public; using ${defaultResumeUrl}.`);
+  return defaultResumeUrl;
+}
+
 // Read state from local file or return defaults
 export function getLocalState(): LocalState {
   try {
@@ -102,9 +140,13 @@ export async function getProfile(): Promise<Profile> {
   const supabase = createServerSupabaseClient();
   if (supabase) {
     const { data, error } = await supabase.from('profiles').select('*').limit(1).single();
-    if (!error && data) return data as Profile;
+    if (!error && data) {
+      const profile = data as Profile;
+      return { ...profile, resume_url: getAvailableResumeUrl(profile.resume_url) };
+    }
   }
-  return getLocalState().profile;
+  const profile = getLocalState().profile;
+  return { ...profile, resume_url: getAvailableResumeUrl(profile.resume_url) };
 }
 
 export async function updateProfile(updates: Partial<Profile>): Promise<Profile> {

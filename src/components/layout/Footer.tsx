@@ -120,7 +120,7 @@ export default function Footer({
                   </Link>
                 </li>
                 <li>
-                  <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-violet-400 transition-colors">
+                  <a href="/Gokul_Resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-violet-400 transition-colors">
                     Curriculum Vitae
                   </a>
                 </li>

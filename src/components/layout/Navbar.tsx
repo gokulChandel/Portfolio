@@ -19,7 +19,7 @@ const NAV_ITEMS = [
   { label: 'Contact', href: '/#contact' },
 ];
 
-export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chandel' }: NavbarProps) {
+export default function Navbar({ resumeUrl = '/Gokul_Resume.pdf', name = 'Gokul Chandel' }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -104,9 +104,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
 
             <a
               href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              download
+              download="Download_Resume.pdf"
               className="site-resume-button hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:-translate-y-0.5"
             >
               <FileDown className="w-3.5 h-3.5" />
@@ -153,9 +151,7 @@ export default function Navbar({ resumeUrl = '/resume.pdf', name = 'Gokul Chande
           <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
             <a
               href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              download
+              download="Download_Resume.pdf"
               className="site-resume-button w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold"
             >
               <FileDown className="w-4 h-4" />

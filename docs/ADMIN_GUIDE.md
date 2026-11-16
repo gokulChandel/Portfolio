@@ -28,7 +28,7 @@ Manage all personal and professional identity fields:
 - **Personal Details**: Full name, title (e.g. *Full Stack Developer*), headline subtitle, and introductory bio.
 - **Employment Information**: Current company (*Parkhya Solutions Pvt. Ltd.*), years of experience (*2+*), and availability status indicator.
 - **Contact Channels**: Professional email address, physical location, GitHub profile URL, and LinkedIn URL.
-- **Resume Location**: Path to your active PDF file (defaults to `/resume.pdf`).
+- **Resume Location**: Path to your active PDF file (defaults to `/Gokul_Resume.pdf`).
 - Click **Save Profile** at the top right to persist updates immediately.
 
 ### C. Technical Skills Management (`/admin/skills`)
@@ -83,4 +83,4 @@ Manage all personal and professional identity fields:
 
 1. **Keep slugs clean**: When adding projects, use lowercase alphanumeric characters with hyphens (e.g., `real-time-chat-engine`).
 2. **Review incoming inquiries weekly**: Mark inquiries as *Resolved* once contacted to keep the inbox clean.
-3. **Keep resume PDF updated**: When you update your resume, overwrite `public/resume.pdf` or upload the new version and update the URL in **Profile Management**.
+3. **Keep resume PDF updated**: Replace `public/Gokul_Resume.pdf` or upload the new version and update the URL in **Profile Management**.

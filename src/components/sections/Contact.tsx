@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import {
   Mail,
   MapPin,
+  Phone,
   Send,
   CheckCircle2,
   AlertCircle,
@@ -195,6 +196,23 @@ export default function ContactSection({ profile }: ContactProps) {
                     </p>
                   </div>
                 </a>
+
+                {profile.phone && (
+                  <a
+                    href={`tel:${profile.phone}`}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-violet-500/40 hover:bg-violet-600/5 transition-all group"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-mono text-slate-400 uppercase">Phone</span>
+                      <p className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors">
+                        {profile.phone}
+                      </p>
+                    </div>
+                  </a>
+                )}
 
                 {/* Location */}
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">

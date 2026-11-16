@@ -238,6 +238,16 @@ export default function AdminProfilePage() {
             </div>
 
             <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase text-slate-300 block">Phone</label>
+              <input
+                type="tel"
+                value={profile.phone || ''}
+                onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                className="w-full px-4 py-2.5 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
               <label className="text-xs font-mono uppercase text-slate-300 block">Location</label>
               <input
                 type="text"

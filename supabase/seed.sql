@@ -4,35 +4,51 @@
 
 -- 1. Profile Seed
 INSERT INTO public.profiles (
-  id, name, title, subtitle, intro_tag, bio, experience_years, 
+  id, name, title, subtitle, intro_tag, bio, experience_years,
   current_company, location, email, github_url, linkedin_url, resume_url, 
-  availability_status, about_paragraphs, career_targets, primary_expertise, highlights
+  phone, availability_status, about_paragraphs, career_targets, primary_expertise, highlights
 ) VALUES (
   'gokul-chandel-profile',
   'Gokul Chandel',
   'Full Stack Developer',
-  'Building scalable digital experiences with modern technologies.',
+  'Building production web applications with React.js, Node.js, and TypeScript.',
   'HELLO, I''M',
-  'I am a Full Stack Developer with 2+ years of experience building modern web applications, scalable backend systems, and interactive user experiences.',
+  'Full Stack Developer with 2+ years of experience building scalable production web applications using React.js, Node.js, Express.js, TypeScript, PostgreSQL, and MongoDB. Experienced in secure REST APIs, JWT/RBAC authentication, payment gateways, and database performance tuning.',
   '2+',
   'Parkhya Solutions Pvt. Ltd.',
-  'India',
-  'gokulchandel.dev@gmail.com',
+  'Indore, MP, India',
+  'gokulchandel25@gmail.com',
   'https://github.com/gokulchandel',
   'https://www.linkedin.com/in/gokul-chandel/',
-  '/resume.pdf',
+  '/Gokul_Resume.pdf',
+  '+91 62329 74541',
   'Available for opportunities',
-  '["I am a Full Stack Developer with 2+ years of professional experience engineering resilient web applications and backend systems at Parkhya Solutions Pvt. Ltd.", "My core expertise revolves around the MERN stack (MongoDB, Express.js, React.js, Node.js), modern Next.js architectures, TypeScript, and relational databases like PostgreSQL. I am passionate about crafting clean system architectures, reusable component design systems, and efficient RESTful APIs.", "I focus on solving real-world business challenges through scalable software solutions, rigorous performance optimization, clean code principles, and intuitive user experiences."]'::jsonb,
+  '["I am a Full Stack Developer with 2+ years of experience building scalable production applications with React.js, Node.js, Express.js, TypeScript, PostgreSQL, and MongoDB.", "At Parkhya Solutions, I have contributed to three enterprise platforms across school management, B2B CRM, and e-commerce. My work includes secure REST APIs with JWT and role-based access control, payment integrations, real-time features, and analytics dashboards.", "I focus on reliable, maintainable systems: optimizing database queries and application performance, automating workflows, and collaborating through Agile development and CI/CD."]'::jsonb,
   '["Software Development Engineer", "Full Stack Developer", "Backend Developer"]'::jsonb,
-  '["MERN Stack Development", "Full Stack Web Application Development", "Frontend Development", "Backend Development", "REST API Development", "Database Management"]'::jsonb,
+  '["React.js & TypeScript", "Node.js & Express.js", "Secure REST APIs, JWT & RBAC", "PostgreSQL & MongoDB", "Payment Gateway Integration", "Performance Optimization & CI/CD"]'::jsonb,
   '[
     {"label": "2+ Years", "sublabel": "Professional Experience", "icon": "Briefcase"},
-    {"label": "Full Stack", "sublabel": "MERN & Next.js Architecture", "icon": "Layers"},
+    {"label": "3 Production Platforms", "sublabel": "Schoolware, PropCRM & Janhit Pharmacy", "icon": "Layers"},
     {"label": "Modern Web", "sublabel": "React, TypeScript, Tailwind", "icon": "Code2"},
     {"label": "Scalable Systems", "sublabel": "REST APIs & Clean DB Design", "icon": "Server"}
   ]'::jsonb
 ) ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  title = EXCLUDED.title,
+  subtitle = EXCLUDED.subtitle,
+  intro_tag = EXCLUDED.intro_tag,
+  bio = EXCLUDED.bio,
+  experience_years = EXCLUDED.experience_years,
+  current_company = EXCLUDED.current_company,
+  location = EXCLUDED.location,
+  email = EXCLUDED.email,
   linkedin_url = EXCLUDED.linkedin_url,
+  resume_url = EXCLUDED.resume_url,
+  phone = EXCLUDED.phone,
+  about_paragraphs = EXCLUDED.about_paragraphs,
+  career_targets = EXCLUDED.career_targets,
+  primary_expertise = EXCLUDED.primary_expertise,
+  highlights = EXCLUDED.highlights,
   updated_at = now();
 
 -- 2. Skill Categories
@@ -54,22 +70,28 @@ INSERT INTO public.skills (id, category_id, name, icon, proficiency_label, displ
   ('sk-css3', 'cat-frontend', 'CSS3', 'Palette', 'Experienced', 6, true),
   ('sk-tailwind', 'cat-frontend', 'Tailwind CSS', 'Sparkles', 'Experienced', 7, true),
   ('sk-redux', 'cat-frontend', 'Redux', 'Cpu', 'Proficient', 8, true),
+  ('sk-material-ui', 'cat-frontend', 'Material UI', 'Layout', 'Experienced', 9, true),
 
   ('sk-node', 'cat-backend', 'Node.js', 'Server', 'Experienced', 1, true),
   ('sk-express', 'cat-backend', 'Express.js', 'Box', 'Experienced', 2, true),
   ('sk-rest', 'cat-backend', 'REST APIs', 'Network', 'Experienced', 3, true),
   ('sk-golang', 'cat-backend', 'Golang', 'Terminal', 'Learning', 4, true),
+  ('sk-java', 'cat-backend', 'Java', 'FileCode2', 'Proficient', 5, true),
+  ('sk-jwt', 'cat-backend', 'JWT Authentication & RBAC', 'Network', 'Experienced', 6, true),
+  ('sk-mvc', 'cat-backend', 'MVC Architecture & Microservices', 'Box', 'Experienced', 7, true),
 
   ('sk-mongo', 'cat-database', 'MongoDB', 'Database', 'Experienced', 1, true),
   ('sk-postgres', 'cat-database', 'PostgreSQL', 'DatabaseZap', 'Proficient', 2, true),
   ('sk-supabase', 'cat-database', 'Supabase', 'Zap', 'Proficient', 3, true),
   ('sk-firebase', 'cat-database', 'Firebase', 'Flame', 'Proficient', 4, true),
+  ('sk-mysql', 'cat-database', 'MySQL', 'Database', 'Experienced', 5, true),
 
   ('sk-docker', 'cat-devops', 'Docker', 'Container', 'Working Knowledge', 1, true),
   ('sk-aws', 'cat-devops', 'AWS', 'Cloud', 'Working Knowledge', 2, true),
   ('sk-actions', 'cat-devops', 'GitHub Actions', 'GitPullRequest', 'Working Knowledge', 3, true),
   ('sk-cicd', 'cat-devops', 'CI/CD', 'Workflow', 'Working Knowledge', 4, true),
   ('sk-linux', 'cat-devops', 'Linux', 'TerminalSquare', 'Proficient', 5, true),
+  ('sk-kubernetes', 'cat-devops', 'Kubernetes', 'Container', 'Working Knowledge', 6, true),
 
   ('sk-git', 'cat-tools', 'Git', 'GitBranch', 'Experienced', 1, true),
   ('sk-github', 'cat-tools', 'GitHub', 'Github', 'Experienced', 2, true),
@@ -85,15 +107,15 @@ INSERT INTO public.projects (
 ) VALUES (
   'proj-1',
   'schoolware-admin',
-  'Schoolware Admin',
-  'School Management System',
-  'A school management platform designed to manage students, teachers, classes, attendance, timetables, and administrative workflows.',
-  'Schoolware Admin is a full-featured web-based school administration and ERP platform. It unifies operations across students, faculty, academic departments, fee schedules, class timetables, and attendance logs into a responsive and intuitive digital workspace. Engineered to eliminate operational friction and enhance data accuracy for school administrative teams.',
-  'Educational institutions frequently battle disjointed record systems, manual attendance tracking, scattered timetable scheduling, and inefficient student data retrieval which create administrative bottlenecks and human error.',
-  'Designed and developed a cohesive administrative dashboard with role-based authorization, automated timetable management, student lifecycle tracking, attendance logging, and fast search capabilities with secure API endpoints.',
-  '["Role-based access control (Admin, Teacher, Staff)", "Comprehensive student and faculty profiles & record archives", "Class & section timetable generator with collision detection", "Daily attendance tracking and reporting system", "Administrative notices and announcements distribution", "Exportable reports for academic audits and records"]'::jsonb,
-  '["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "JWT", "REST APIs"]'::jsonb,
-  '["Architected RESTful backend API services with Express.js and MongoDB.", "Designed responsive admin UI layouts using React.js and Tailwind CSS.", "Implemented secure JWT authentication and role-based permissions.", "Engineered dynamic timetable creation and attendance management modules."]'::jsonb,
+  'Schoolware',
+  'Enterprise School Management Platform',
+  'An enterprise school platform for attendance, fees, and inventory, with real-time chat, push notifications, payment gateways, and operational dashboards.',
+  'Schoolware is an enterprise school management platform built to streamline school operations. It brings attendance, fee, and inventory workflows together with real-time chat support, push notifications, payment gateways, and dashboards that replace manual spreadsheet reporting.',
+  'Manual school administration and spreadsheet-based reporting make it difficult to coordinate attendance, fees, and inventory while keeping staff and families informed.',
+  'Built full-stack school management modules and integrated real-time communications, notifications, payment gateways, and reporting dashboards.',
+  '["Attendance management", "Fee management", "Inventory management", "Real-time chat support", "Push notifications", "Payment gateway integration", "Real-time operational dashboards"]'::jsonb,
+  '["React.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL"]'::jsonb,
+  '["Built full-stack modules for attendance, fees, and inventory.", "Integrated real-time chat, push notifications, and payment gateways.", "Automated reporting with real-time dashboards, reducing administrative overhead by approximately 60%."]'::jsonb,
   '/images/projects/schoolware-thumb.webp',
   '["/images/projects/schoolware-thumb.webp", "/images/projects/schoolware-detail-1.webp"]'::jsonb,
   '',
@@ -104,15 +126,15 @@ INSERT INTO public.projects (
 ), (
   'proj-2',
   'janhit-chemist',
-  'Janhit Chemist',
-  'Pharmacy Management Platform',
-  'A pharmacy management platform with inventory management, medicine tracking, order management, and administrative functionality.',
-  'Janhit Chemist is a purpose-built digital management system for pharmacy retailers and distributors. It provides complete oversight of medicine stocks, batch numbers, expiration schedules, supplier orders, and customer billing workflows with real-time stock alerts.',
-  'Retail pharmacy stores struggle with manual inventory reconciliation, unmonitored medicine expiry losses, stockout scenarios during peak hours, and cumbersome invoice processing.',
-  'Built an end-to-end pharmacy operations platform with fast medicine search, automated low-stock warnings, expiry date monitoring, purchase order recording, and seamless point-of-sale receipt generation.',
-  '["Real-time medicine inventory tracking with batch number records", "Automated expiry alerts and shelf-life monitoring", "Supplier order management and invoice generation", "Fast customer search and billing module", "Administrative sales reports and inventory valuation summaries"]'::jsonb,
-  '["React.js", "Node.js", "MongoDB", "Bootstrap", "REST APIs"]'::jsonb,
-  '["Developed inventory tracking and batch management backend logic.", "Implemented front-end management modules in React.js.", "Integrated RESTful endpoints for medicine catalog and transactions.", "Optimized MongoDB queries for real-time inventory level searches."]'::jsonb,
+  'Janhit Pharmacy',
+  'E-commerce Platform',
+  'A pharmacy e-commerce platform with customer storefront, admin tools, product catalogs, cart and order workflows, inventory alerts, and secure payments.',
+  'Janhit Pharmacy is a full-stack pharmacy e-commerce platform with a customer storefront and administration panels. Its REST APIs support product catalogs, cart operations, and real-time inventory alerts, with secure payment processing for online orders.',
+  'Pharmacy customers need a straightforward online checkout, while administrators need dependable product, order, and inventory workflows.',
+  'Developed a React storefront and admin panels backed by Node.js and Express APIs, and integrated secure payment processing and inventory alerts.',
+  '["Customer-facing e-commerce storefront", "Administration panels", "Product catalog management", "Shopping cart and order workflows", "Real-time inventory alerts", "Secure online payment processing"]'::jsonb,
+  '["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs"]'::jsonb,
+  '["Created the full-stack storefront and administration panels.", "Built REST APIs for cart operations, product catalogs, and inventory alerts.", "Integrated secure payments to streamline checkout and reduce fulfillment errors."]'::jsonb,
   '/images/projects/janhit-thumb.webp',
   '["/images/projects/janhit-thumb.webp", "/images/projects/janhit-detail-1.webp"]'::jsonb,
   '',
@@ -123,15 +145,15 @@ INSERT INTO public.projects (
 ), (
   'proj-3',
   'crm-platform',
-  'CRM Platform',
-  'Customer Relationship Management',
-  'A CRM application focused on lead generation, lead management, business analytics, and tracking sales activities.',
-  'A tailored Customer Relationship Management platform designed to streamline sales workflows, lead acquisition, follow-up scheduling, customer interaction history, and conversion analytics for growing businesses.',
-  'Sales teams lose potential deals when lead data is scattered across spreadsheets, follow-up reminders are missed, and managers lack real-time visibility into the team sales pipeline.',
-  'Engineered an intuitive CRM web platform enabling stage-by-stage pipeline tracking, lead source tagging, interaction logs, task assignees, and real-time dashboard analytics.',
-  '["Pipeline stages tracking from prospecting to closure", "Lead assignment and multi-channel source categorization", "Activity timeline with call notes, emails, and meetings", "Performance analytics and monthly conversion metrics", "Role-based data access for sales reps and managers"]'::jsonb,
-  '["React.js", "Node.js", "Express.js", "MongoDB", "REST APIs", "Tailwind CSS"]'::jsonb,
-  '["Designed lead lifecycle data schemas and state transitions.", "Built interactive pipeline boards and lead detail views.", "Implemented analytics endpoints for stage conversion rates.", "Created automated status update workflows for sales activities."]'::jsonb,
+  'PropCRM',
+  'Lead Generation & Sales Analytics CRM',
+  'A real estate CRM for lead capture, lead scoring, pipeline tracking, sales analytics, and automated lead notifications.',
+  'PropCRM is a CRM platform for real estate sales teams. Lead capture, scoring, and pipeline tracking help organize sales conversion funnels, while interactive analytics dashboards and automated notifications help teams prioritize valuable leads.',
+  'Real estate sales teams need a reliable way to capture and score leads, track pipeline progress, and focus follow-up on high-value opportunities.',
+  'Developed lead capture, lead scoring, and pipeline tracking modules with analytics dashboards and automated notifications.',
+  '["Lead capture and generation", "Lead scoring and management", "Sales pipeline tracking", "Interactive sales analytics dashboards", "Automated lead notifications"]'::jsonb,
+  '["React.js", "Node.js", "Express.js", "PostgreSQL"]'::jsonb,
+  '["Developed lead capture, lead scoring, and pipeline tracking modules for real estate sales teams.", "Built interactive analytics dashboards and automated lead notifications to prioritize high-value sales opportunities."]'::jsonb,
   '/images/projects/crm-thumb.webp',
   '["/images/projects/crm-thumb.webp", "/images/projects/crm-detail-1.webp"]'::jsonb,
   '',
@@ -139,7 +161,17 @@ INSERT INTO public.projects (
   true,
   true,
   3
-) ON CONFLICT (id) DO NOTHING;
+) ON CONFLICT (id) DO UPDATE SET
+  title = EXCLUDED.title,
+  category = EXCLUDED.category,
+  short_description = EXCLUDED.short_description,
+  full_description = EXCLUDED.full_description,
+  problem_statement = EXCLUDED.problem_statement,
+  solution = EXCLUDED.solution,
+  features = EXCLUDED.features,
+  technologies = EXCLUDED.technologies,
+  contributions = EXCLUDED.contributions,
+  updated_at = now();
 
 -- 5. Experiences
 INSERT INTO public.experiences (
@@ -148,32 +180,78 @@ INSERT INTO public.experiences (
 ) VALUES (
   'exp-parkhya',
   'Parkhya Solutions Pvt. Ltd.',
-  'Junior Software Engineer',
-  'India',
-  '2022 - Present (2+ Years)',
-  '2022-08-01',
+  'Junior Software Engineer — Full Stack Developer',
+  'Indore, MP',
+  'Dec 2024 – Present',
+  '2024-12-01',
   NULL,
   true,
-  'Working on modern web application development using React.js, Node.js, Express.js, MongoDB, and related technologies.',
-  '["Engineered full-stack features using React.js, Node.js, Express.js, and MongoDB for diverse enterprise web applications.", "Developed performant, scalable RESTful APIs with structured request validation and JWT-based authentication.", "Designed modular, reusable frontend component libraries with clean state management and responsive styling.", "Optimized database queries and indexing strategies in MongoDB to improve API response latencies.", "Collaborated in Agile development cycles, sprint planning, peer code reviews, and version control using Git and GitHub."]'::jsonb,
-  '["React.js", "Node.js", "Express.js", "MongoDB", "JavaScript", "TypeScript", "REST APIs", "Tailwind CSS", "Git"]'::jsonb,
+  'Architected key modules for three production web platforms across school management, B2B CRM, and e-commerce using React.js, TypeScript, Node.js, Express.js, PostgreSQL, and MongoDB.',
+  '["Architected modules for three production platforms and reduced frontend development cycle times by 30%.", "Engineered secure REST APIs with JWT authentication, RBAC, middleware, WebSockets, and Webhooks, supporting 1,000+ concurrent active users.", "Integrated payment gateways, automated notifications, live chat, and analytics dashboards, cutting administrative workload by 60%.", "Optimized PostgreSQL and MongoDB queries, indexing, and aggregation pipelines, reducing query latency by 35%; improved page load speeds by 30% through code splitting.", "Collaborated in Agile sprints, code reviews, and CI/CD deployments, delivering 90%+ of sprint commitments on schedule."]'::jsonb,
+  '["React.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "MongoDB", "JWT", "RBAC", "WebSockets", "Webhooks", "CI/CD"]'::jsonb,
   1
-) ON CONFLICT (id) DO NOTHING;
+) ON CONFLICT (id) DO UPDATE SET
+  company = EXCLUDED.company,
+  role = EXCLUDED.role,
+  location = EXCLUDED.location,
+  period = EXCLUDED.period,
+  start_date = EXCLUDED.start_date,
+  end_date = EXCLUDED.end_date,
+  is_current = EXCLUDED.is_current,
+  description = EXCLUDED.description,
+  responsibilities = EXCLUDED.responsibilities,
+  technologies = EXCLUDED.technologies;
+
+INSERT INTO public.experiences (
+  id, company, role, location, period, start_date, end_date,
+  is_current, description, responsibilities, technologies, display_order
+) VALUES (
+  'exp-grow-tech',
+  'Grow Tech, Dr. Reddy''s Foundation',
+  'Full Stack Developer Intern',
+  'Indore, MP',
+  'Jun 2024 – Sep 2024',
+  '2024-06-01',
+  '2024-09-30',
+  false,
+  'Developed a full-stack e-commerce application with React.js, Express.js, Node.js, and MongoDB, and completed 15+ full-stack projects using Git-based Agile practices.',
+  '["Developed product, cart, and order CRUD workflows for a full-stack e-commerce application.", "Completed 15+ full-stack projects connecting modular React frontends with Express and Node.js REST APIs using Git-based Agile practices."]'::jsonb,
+  '["React.js", "Express.js", "Node.js", "MongoDB", "REST APIs", "Git", "Agile"]'::jsonb,
+  2
+) ON CONFLICT (id) DO UPDATE SET
+  company = EXCLUDED.company,
+  role = EXCLUDED.role,
+  location = EXCLUDED.location,
+  period = EXCLUDED.period,
+  start_date = EXCLUDED.start_date,
+  end_date = EXCLUDED.end_date,
+  is_current = EXCLUDED.is_current,
+  description = EXCLUDED.description,
+  responsibilities = EXCLUDED.responsibilities,
+  technologies = EXCLUDED.technologies,
+  display_order = EXCLUDED.display_order;
 
 -- 6. Education
 INSERT INTO public.education (
   id, institution, degree, field_of_study, start_date, end_date, grade, description, display_order
 ) VALUES (
   'edu-bachelor',
-  'University / Institute of Technology',
+  'Sushila Devi Bansal College of Technology, Indore',
   'Bachelor of Technology (B.Tech)',
-  'Computer Science & Engineering',
-  '2018',
-  '2022',
-  'First Class with Distinction',
-  'Core coursework in Data Structures, Algorithms, Database Management Systems, Computer Networks, and Software Engineering.',
+  'Computer Science and Engineering',
+  '2020',
+  '2024',
+  NULL,
+  NULL,
   1
-) ON CONFLICT (id) DO NOTHING;
+) ON CONFLICT (id) DO UPDATE SET
+  institution = EXCLUDED.institution,
+  degree = EXCLUDED.degree,
+  field_of_study = EXCLUDED.field_of_study,
+  start_date = EXCLUDED.start_date,
+  end_date = EXCLUDED.end_date,
+  grade = EXCLUDED.grade,
+  description = EXCLUDED.description;
 
 -- 7. Certifications
 INSERT INTO public.certifications (
@@ -209,7 +287,7 @@ INSERT INTO public.site_settings (
   '/images/og-image.png',
   '© 2026 Gokul Chandel. Engineered for performance and clean architecture.',
   true,
-  '/resume.pdf',
+  '/Gokul_Resume.pdf',
   '{"github": "https://github.com/gokulchandel", "linkedin": "https://www.linkedin.com/in/gokul-chandel/", "email": "gokulchandel.dev@gmail.com"}'::jsonb
 ) ON CONFLICT (id) DO UPDATE SET
   social_links = jsonb_set(
