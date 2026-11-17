@@ -193,6 +193,20 @@ const TECH_THEMES: Record<
   },
 };
 
+const getProficiencyPercent = (label?: string) => {
+  switch (label?.toLowerCase()) {
+    case 'expert':
+    case 'experienced':
+      return 92;
+    case 'proficient':
+      return 82;
+    case 'learning':
+      return 68;
+    default:
+      return 78;
+  }
+};
+
 export default function Skills({ skills, categories }: SkillsProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -280,6 +294,28 @@ export default function Skills({ skills, categories }: SkillsProps) {
                 Skill areas
               </span>
             </div>
+          </div>
+        </div>
+
+        {/* Continuous Tech Stream Marquee */}
+        <div className="skills-reveal overflow-hidden w-full py-3 mb-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex w-max gap-3 animate-[portfolio-marquee_30s_linear_infinite] hover:[animation-play-state:paused]">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex items-center gap-3">
+                {skills.slice(0, 14).map((item) => {
+                  const theme = TECH_THEMES[item.name] || { color: '#8B5CF6' };
+                  return (
+                    <div
+                      key={`${copy}-${item.id}`}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#111827]/80 border border-white/[0.08] text-xs font-mono text-slate-300 hover:border-violet-500/40 hover:text-white transition-all shadow-sm shrink-0"
+                    >
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: theme.color }} />
+                      <span>{item.name}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -396,28 +432,48 @@ export default function Skills({ skills, categories }: SkillsProps) {
                             bgHover: 'group-hover:bg-violet-500/10',
                             pill: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
                           };
+                          const percent = getProficiencyPercent(skill.proficiency_label);
                           return (
                             <div
                               key={skill.id}
-                              className={`group/skill min-w-0 flex items-center gap-3 p-3 rounded-xl bg-white/[0.025] border border-white/[0.06] ${theme.borderHover} hover:bg-white/[0.05] transition-all`}
+                              className={`group/skill min-w-0 p-3 rounded-xl bg-white/[0.025] border border-white/[0.06] ${theme.borderHover} hover:bg-white/[0.05] transition-all flex flex-col justify-between`}
                             >
-                              <div
-                                className={`w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover/skill:scale-105 ${theme.bgHover}`}
-                                style={{ color: theme.color }}
-                              >
-                                {iconMap[skill.icon || 'Code'] || (
-                                  <Code className="w-4 h-4" />
-                                )}
-                              </div>
-                              <div className="min-w-0">
-                                <span className="block text-xs sm:text-[13px] font-semibold text-slate-200 group-hover/skill:text-white truncate">
-                                  {skill.name}
-                                </span>
-                                {skill.proficiency_label && (
-                                  <span className={`mt-1 inline-block text-[9px] leading-4 font-mono px-1.5 rounded border ${theme.pill}`}>
-                                    {skill.proficiency_label}
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover/skill:scale-110 ${theme.bgHover}`}
+                                  style={{ color: theme.color }}
+                                >
+                                  {iconMap[skill.icon || 'Code'] || (
+                                    <Code className="w-4 h-4" />
+                                  )}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <span className="block text-xs sm:text-[13px] font-semibold text-slate-200 group-hover/skill:text-white truncate">
+                                    {skill.name}
                                   </span>
-                                )}
+                                  {skill.proficiency_label && (
+                                    <span className={`mt-0.5 inline-block text-[9px] leading-3 font-mono px-1.5 py-0.5 rounded border ${theme.pill}`}>
+                                      {skill.proficiency_label}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              {/* Animated Progress Meter */}
+                              <div className="w-full mt-2.5 pt-2 border-t border-white/[0.04]">
+                                <div className="flex items-center justify-between text-[9px] font-mono text-slate-500 mb-1">
+                                  <span>Proficiency</span>
+                                  <span className="font-semibold" style={{ color: theme.color }}>{percent}%</span>
+                                </div>
+                                <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
+                                  <div
+                                    className="h-full rounded-full transition-all duration-700 ease-out"
+                                    style={{
+                                      width: `${percent}%`,
+                                      backgroundColor: theme.color,
+                                      boxShadow: `0 0 6px ${theme.color}80`,
+                                    }}
+                                  />
+                                </div>
                               </div>
                             </div>
                           );
@@ -437,31 +493,52 @@ export default function Skills({ skills, categories }: SkillsProps) {
                   bgHover: 'group-hover:bg-violet-500/10',
                   pill: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
                 };
+                const percent = getProficiencyPercent(skill.proficiency_label);
                 return (
                   <div
                     key={skill.id}
-                    className={`group min-w-0 p-4 sm:p-5 rounded-2xl bg-[#101522]/90 border border-white/[0.08] ${theme.borderHover} hover:bg-[#121a2b] transition-all flex items-center gap-4`}
+                    className={`group min-w-0 p-4 sm:p-5 rounded-2xl bg-[#101522]/90 border border-white/[0.08] ${theme.borderHover} hover:bg-[#121a2b] transition-all flex flex-col justify-between`}
                   >
-                    <div
-                      className={`w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 ${theme.bgHover}`}
-                      style={{ color: theme.color }}
-                    >
-                      {iconMap[skill.icon || 'Code'] || (
-                        <Code className="w-5 h-5" />
-                      )}
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${theme.bgHover}`}
+                        style={{ color: theme.color }}
+                      >
+                        {iconMap[skill.icon || 'Code'] || (
+                          <Code className="w-5 h-5" />
+                        )}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-violet-300 transition-colors truncate">
+                          {skill.name}
+                        </h4>
+                        <p className="mt-0.5 text-[11px] font-mono text-slate-400 truncate">
+                          {skill.category_name || 'Technical Domain'}
+                        </p>
+                        {skill.proficiency_label && (
+                          <span className={`mt-1.5 inline-block text-[10px] font-mono px-2 py-0.5 rounded-full border ${theme.pill}`}>
+                            {skill.proficiency_label}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-violet-300 transition-colors truncate">
-                        {skill.name}
-                      </h4>
-                      <p className="mt-1 text-[11px] font-mono text-slate-400 truncate">
-                        {skill.category_name || 'Technical Domain'}
-                      </p>
-                      {skill.proficiency_label && (
-                        <span className={`mt-2 inline-block text-[10px] font-mono px-2 py-0.5 rounded-full border ${theme.pill}`}>
-                          {skill.proficiency_label}
-                        </span>
-                      )}
+
+                    {/* Progress Bar */}
+                    <div className="w-full mt-3 pt-2.5 border-t border-white/[0.05]">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1">
+                        <span>Proficiency</span>
+                        <span className="font-semibold" style={{ color: theme.color }}>{percent}%</span>
+                      </div>
+                      <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-700 ease-out"
+                          style={{
+                            width: `${percent}%`,
+                            backgroundColor: theme.color,
+                            boxShadow: `0 0 6px ${theme.color}80`,
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 );

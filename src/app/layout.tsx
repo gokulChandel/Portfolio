@@ -72,6 +72,9 @@ export const metadata: Metadata = {
 };
 
 import SpotlightGlow from '@/components/ui/SpotlightGlow';
+import ScrollProgressBar from '@/components/ui/ScrollProgressBar';
+import ScrollToTop from '@/components/ui/ScrollToTop';
+import ConfettiBurst from '@/components/ui/ConfettiBurst';
 
 export default async function RootLayout({
   children,
@@ -140,8 +143,11 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-[#080B12] text-[#F8FAFC] selection:bg-[#8B5CF6]/30 selection:text-white transition-colors duration-300">
+        <ScrollProgressBar />
         <SpotlightGlow />
+        <ConfettiBurst />
         {children}
+        <ScrollToTop />
       </body>
     </html>
   );

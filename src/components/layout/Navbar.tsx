@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, FileDown, ArrowUpRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import { triggerConfetti } from '@/components/ui/ConfettiBurst';
 
 interface NavbarProps {
   resumeUrl?: string;
@@ -105,7 +106,8 @@ export default function Navbar({ resumeUrl = '/Gokul_Resume.pdf', name = 'Gokul 
             <a
               href={resumeUrl}
               download="Download_Resume.pdf"
-              className="site-resume-button hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:-translate-y-0.5"
+              onClick={() => triggerConfetti()}
+              className="site-resume-button hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:-translate-y-0.5 cursor-pointer"
             >
               <FileDown className="w-3.5 h-3.5" />
               <span>Resume</span>
@@ -152,7 +154,11 @@ export default function Navbar({ resumeUrl = '/Gokul_Resume.pdf', name = 'Gokul 
             <a
               href={resumeUrl}
               download="Download_Resume.pdf"
-              className="site-resume-button w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold"
+              onClick={() => {
+                triggerConfetti();
+                setMobileMenuOpen(false);
+              }}
+              className="site-resume-button w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
             >
               <FileDown className="w-4 h-4" />
               <span>Download Resume</span>

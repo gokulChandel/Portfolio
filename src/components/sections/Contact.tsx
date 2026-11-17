@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Mail,
   MapPin,
@@ -10,9 +10,12 @@ import {
   AlertCircle,
   Loader2,
   Clock,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
+import { triggerConfetti } from '@/components/ui/ConfettiBurst';
 import { Profile } from '@/types';
 
 interface ContactProps {
@@ -32,6 +35,34 @@ export default function ContactSection({ profile }: ContactProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
+  const [timeString, setTimeString] = useState<string>('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTimeString(
+        now.toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Kolkata',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        })
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const copyToClipboard = (text: string | undefined, label: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedItem(label);
+    setTimeout(() => setCopiedItem(null), 2000);
+  };
 
   useGSAP(
     () => {
@@ -128,6 +159,7 @@ export default function ContactSection({ profile }: ContactProps) {
       }
 
       setSuccess('Thank you for reaching out! Your message has been sent successfully. I will get back to you shortly.');
+      triggerConfetti();
       setFormData({
         name: '',
         email: '',
@@ -182,41 +214,84 @@ export default function ContactSection({ profile }: ContactProps) {
 
               <div className="space-y-4 pt-2">
                 {/* Email */}
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-violet-500/40 hover:bg-violet-600/5 transition-all group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-mono text-slate-400 uppercase">Email</span>
-                    <p className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors">
-                      {profile.email}
-                    </p>
-                  </div>
-                </a>
-
-                {profile.phone && (
+                <div className="flex items-center justify-between p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-violet-500/40 hover:bg-violet-600/5 transition-all group">
                   <a
-                    href={`tel:${profile.phone}`}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-violet-500/40 hover:bg-violet-600/5 transition-all group"
+                    href={`mailto:${profile.email}`}
+                    className="flex items-center gap-4 flex-1 min-w-0"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
-                      <Phone className="w-5 h-5" />
+                    <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform shrink-0">
+                      <Mail className="w-5 h-5" />
                     </div>
-                    <div>
-                      <span className="text-xs font-mono text-slate-400 uppercase">Phone</span>
-                      <p className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors">
-                        {profile.phone}
+                    <div className="min-w-0">
+                      <span className="text-xs font-mono text-slate-400 uppercase">Email</span>
+                      <p className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors truncate">
+                        {profile.email}
                       </p>
                     </div>
                   </a>
+                  <button
+                    type="button"
+                    onClick={(e) => copyToClipboard(profile.email, 'email', e)}
+                    className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.1] text-slate-400 hover:text-white transition-all text-xs font-mono flex items-center gap-1 shrink-0 ml-2 cursor-pointer"
+                    title="Copy email to clipboard"
+                    aria-label="Copy email address"
+                  >
+                    {copiedItem === 'email' ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-[10px] text-emerald-300">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span className="text-[10px] hidden sm:inline">Copy</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Phone */}
+                {profile.phone && (
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-violet-500/40 hover:bg-violet-600/5 transition-all group">
+                    <a
+                      href={`tel:${profile.phone}`}
+                      className="flex items-center gap-4 flex-1 min-w-0"
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform shrink-0">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="text-xs font-mono text-slate-400 uppercase">Phone</span>
+                        <p className="text-sm font-semibold text-white group-hover:text-violet-300 transition-colors truncate">
+                          {profile.phone}
+                        </p>
+                      </div>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={(e) => copyToClipboard(profile.phone, 'phone', e)}
+                      className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.1] text-slate-400 hover:text-white transition-all text-xs font-mono flex items-center gap-1 shrink-0 ml-2 cursor-pointer"
+                      title="Copy phone to clipboard"
+                      aria-label="Copy phone number"
+                    >
+                      {copiedItem === 'phone' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-[10px] text-emerald-300">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span className="text-[10px] hidden sm:inline">Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 )}
 
                 {/* Location */}
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="w-10 h-10 rounded-lg bg-cyan-600/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                  <div className="w-10 h-10 rounded-lg bg-cyan-600/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
@@ -227,15 +302,23 @@ export default function ContactSection({ profile }: ContactProps) {
                   </div>
                 </div>
 
-                {/* Response time */}
+                {/* Live Working Hours & Time */}
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                  <div className="w-10 h-10 rounded-lg bg-amber-600/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                  <div className="w-10 h-10 rounded-lg bg-amber-600/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-xs font-mono text-slate-400 uppercase">Working Hours</span>
-                    <p className="text-sm font-semibold text-white">
-                      IST (UTC+5:30) • Flexible for global timezones
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono text-slate-400 uppercase">Local Time (IST)</span>
+                      {timeString && (
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span>{timeString}</span>
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm font-semibold text-white mt-0.5">
+                      Flexible for global timezones (US, EU, APAC)
                     </p>
                   </div>
                 </div>

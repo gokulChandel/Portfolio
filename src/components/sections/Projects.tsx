@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { Project } from '@/types';
 import ProjectCard from '@/components/projects/ProjectCard';
+import ProjectQuickModal from '@/components/projects/ProjectQuickModal';
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -14,6 +15,7 @@ interface ProjectsSectionProps {
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const containerRef = useRef<HTMLElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   // Collect unique categories from projects
   const categories = ['all', ...Array.from(new Set(projects.map((p) => p.category)))];
@@ -101,10 +103,19 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         <div className="projects-grid grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 sm:gap-7 xl:grid-cols-3">
           {filteredProjects.map((project) => (
             <div key={project.id} className="project-item min-w-0">
-              <ProjectCard project={project} />
+              <ProjectCard
+                project={project}
+                onQuickView={(p) => setActiveModalProject(p)}
+              />
             </div>
           ))}
         </div>
+
+        {/* Project Quick View Modal */}
+        <ProjectQuickModal
+          project={activeModalProject}
+          onClose={() => setActiveModalProject(null)}
+        />
 
         {/* Bottom Banner */}
         <div className="mt-16 p-8 rounded-2xl bg-gradient-to-r from-violet-950/40 via-[#111827] to-cyan-950/40 border border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">

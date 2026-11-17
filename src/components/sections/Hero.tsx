@@ -7,14 +7,13 @@ import {
   FileDown,
   Mail,
   CheckCircle2,
-  Sparkles,
-  Layers,
-  Database,
-  Network,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 import AntigravityParticles from '@/components/ui/AntigravityParticles';
 import FallingText from '@/components/ui/FallingText';
+import RoleCycler from '@/components/ui/RoleCycler';
+import HeroShowcase from '@/components/sections/HeroShowcase';
+import { triggerConfetti } from '@/components/ui/ConfettiBurst';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { Profile } from '@/types';
 
@@ -135,31 +134,6 @@ export default function Hero({ profile }: HeroProps) {
     { scope: containerRef }
   );
 
-  const triggerOrbitBurst = () => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const chips = gsap.utils.toArray<HTMLElement>(
-      containerRef.current?.querySelectorAll('.hero-orbit-chip') ?? []
-    );
-    gsap.to(chips, {
-      x: () => gsap.utils.random(-90, 90),
-      y: () => gsap.utils.random(-90, 90),
-      rotation: () => gsap.utils.random(-36, 36),
-      duration: 0.42,
-      stagger: 0.025,
-      ease: 'power2.out',
-      onComplete: () => {
-        gsap.to(chips, {
-          x: 0,
-          y: 0,
-          rotation: 0,
-          duration: 0.95,
-          stagger: 0.025,
-          ease: 'elastic.out(1, 0.45)',
-        });
-      },
-    });
-  };
 
   return (
     <section
@@ -202,8 +176,8 @@ export default function Hero({ profile }: HeroProps) {
                 text={profile.name}
                 className="hero-heading max-w-[13ch] text-5xl sm:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] leading-[0.94] font-extrabold tracking-[-0.065em] text-white"
               />
-              <h2 className="hero-title text-2xl sm:text-3xl lg:text-[2.4rem] font-bold tracking-tight">
-                {profile.title}
+              <h2 className="hero-title text-2xl sm:text-3xl lg:text-[2.4rem] font-bold tracking-tight flex items-center">
+                <RoleCycler defaultTitle={profile.title} />
               </h2>
               <p className="text-[10px] font-mono text-slate-500">Drag a letter to toss it</p>
             </div>
@@ -231,7 +205,8 @@ export default function Hero({ profile }: HeroProps) {
               <a
                 href={profile.resume_url}
                 download="Download_Resume.pdf"
-                className="hero-action inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-slate-200 hover:text-white font-medium text-sm transition-all hover:-translate-y-0.5"
+                onClick={() => triggerConfetti()}
+                className="hero-action inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-slate-200 hover:text-white font-medium text-sm transition-all hover:-translate-y-0.5 cursor-pointer"
               >
                 <FileDown className="w-4 h-4 text-violet-300" />
                 <span>Download Resume</span>
@@ -293,43 +268,10 @@ export default function Hero({ profile }: HeroProps) {
 
           </div>
 
-          <div className="hero-visual relative isolate lg:col-span-5">
-            <button
-              type="button"
-              className="hero-showcase group"
-              onClick={triggerOrbitBurst}
-              aria-label="Click to scatter and gather the technology orbits"
-            >
-              <span className="hero-orbit hero-orbit-one" aria-hidden="true" />
-              <span className="hero-orbit hero-orbit-two" aria-hidden="true" />
-              <span className="hero-orbit hero-orbit-three" aria-hidden="true" />
-              <span className="hero-orb-core" aria-hidden="true">
-                <Sparkles className="h-9 w-9" />
-              </span>
-              <span className="hero-orbit-chip hero-chip-react">React</span>
-              <span className="hero-orbit-chip hero-chip-next">Next.js</span>
-              <span className="hero-orbit-chip hero-chip-node">Node.js</span>
-              <span className="hero-orbit-chip hero-chip-data">PostgreSQL</span>
-              <span className="hero-orbit-chip hero-chip-api">REST APIs</span>
-              <span className="hero-orbit-chip hero-chip-ts">TypeScript</span>
-              <span className="hero-orbit-prompt">Click to play with the stack</span>
-            </button>
-
-            <div className="hero-showcase-stats">
-              <div className="hero-stat-card">
-                <Layers className="h-4 w-4 text-violet-300" />
-                <span><strong>{profile.experience_years}+</strong> years building</span>
-              </div>
-              <div className="hero-stat-card">
-                <Database className="h-4 w-4 text-cyan-300" />
-                <span><strong>Production</strong> systems</span>
-              </div>
-              <div className="hero-stat-card">
-                <Network className="h-4 w-4 text-emerald-300" />
-                <span><strong>{profile.current_company}</strong></span>
-              </div>
-            </div>
-          </div>
+          <HeroShowcase
+            experienceYears={profile.experience_years}
+            currentCompany={profile.current_company}
+          />
         </div>
 
         <div className="hero-horizontal-text">

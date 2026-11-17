@@ -8,8 +8,10 @@ import {
   Network,
   Database,
   Zap,
+  CheckCircle2,
 } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
+import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 import { Service } from '@/types';
 
 interface ServicesProps {
@@ -83,31 +85,50 @@ export default function ServicesSection({ services }: ServicesProps) {
         {/* Services Grid */}
         <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service) => (
-            <div
+            <ServiceCardItem
               key={service.id}
-              className="service-card group p-8 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card flex flex-col justify-between"
-            >
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center group-hover:scale-110 group-hover:bg-violet-600/10 transition-all">
-                  {iconMap[service.icon] || <Layers className="w-6 h-6 text-violet-400" />}
-                </div>
-
-                <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-violet-300 transition-colors">
-                  {service.title}
-                </h3>
-
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-
-              <div className="pt-6 mt-6 border-t border-white/[0.04] flex items-center text-xs font-mono text-slate-500 group-hover:text-violet-400 transition-colors">
-                <span>Production Architecture</span>
-              </div>
-            </div>
+              service={service}
+              icon={iconMap[service.icon] || <Layers className="w-6 h-6 text-violet-400" />}
+            />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function ServiceCardItem({
+  service,
+  icon,
+}: {
+  service: Service;
+  icon: React.ReactNode;
+}) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
+  return (
+    <div
+      ref={cardRef}
+      className="service-card tilt-card group p-8 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card flex flex-col justify-between hover:shadow-xl hover:shadow-violet-600/10 cursor-default"
+    >
+      <div className="space-y-4">
+        <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center group-hover:scale-110 group-hover:bg-violet-600/10 transition-all">
+          {icon}
+        </div>
+
+        <h3 className="text-lg font-bold text-white tracking-tight group-hover:text-violet-300 transition-colors">
+          {service.title}
+        </h3>
+
+        <p className="text-sm text-slate-400 leading-relaxed">
+          {service.description}
+        </p>
+      </div>
+
+      <div className="pt-6 mt-6 border-t border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-500 group-hover:text-violet-400 transition-colors">
+        <span>Production Architecture</span>
+        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 opacity-60 group-hover:opacity-100 transition-opacity" />
+      </div>
+    </div>
   );
 }

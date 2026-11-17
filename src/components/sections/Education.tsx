@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { GraduationCap, Award, Calendar, ExternalLink, BookOpen } from 'lucide-react';
+import { GraduationCap, Award, Calendar, ExternalLink, BookOpen, ShieldCheck } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
+import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 import { Education, Certification } from '@/types';
 
 interface EducationSectionProps {
@@ -80,41 +81,7 @@ export default function EducationSection({
 
             <div className="space-y-4">
               {education.map((edu) => (
-                <div
-                  key={edu.id}
-                  className="edu-card p-6 sm:p-7 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                    <div>
-                      <h4 className="text-lg font-bold text-white tracking-tight">
-                        {edu.degree}
-                      </h4>
-                      <p className="text-sm font-medium text-violet-400">
-                        {edu.field_of_study}
-                      </p>
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs font-mono text-slate-400 whitespace-nowrap self-start sm:self-auto">
-                      <Calendar className="w-3 h-3 text-slate-400" />
-                      {edu.start_date} - {edu.end_date}
-                    </span>
-                  </div>
-
-                  <p className="text-sm text-slate-300 font-semibold mb-2">
-                    {edu.institution}
-                  </p>
-
-                  {edu.grade && (
-                    <div className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
-                      {edu.grade}
-                    </div>
-                  )}
-
-                  {edu.description && (
-                    <p className="text-sm text-slate-400 leading-relaxed">
-                      {edu.description}
-                    </p>
-                  )}
-                </div>
+                <EducationCardItem key={edu.id} edu={edu} />
               ))}
             </div>
           </div>
@@ -130,42 +97,7 @@ export default function EducationSection({
 
             <div className="space-y-4">
               {certifications.map((cert) => (
-                <div
-                  key={cert.id}
-                  className="edu-card p-6 sm:p-7 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-cyan-500/40 transition-all glow-card"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                    <h4 className="text-lg font-bold text-white tracking-tight">
-                      {cert.name}
-                    </h4>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs font-mono text-slate-400 whitespace-nowrap self-start sm:self-auto">
-                      <Calendar className="w-3 h-3 text-slate-400" />
-                      {cert.issue_date}
-                    </span>
-                  </div>
-
-                  <p className="text-sm font-semibold text-cyan-400 mb-2">
-                    {cert.issuer}
-                  </p>
-
-                  {cert.description && (
-                    <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                      {cert.description}
-                    </p>
-                  )}
-
-                  {cert.credential_url && (
-                    <a
-                      href={cert.credential_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
-                    >
-                      <span>Verify Credential</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-                </div>
+                <CertificationCardItem key={cert.id} cert={cert} />
               ))}
 
               {/* Continuous Learning Card */}
@@ -185,5 +117,91 @@ export default function EducationSection({
         </div>
       </div>
     </section>
+  );
+}
+
+function EducationCardItem({ edu }: { edu: Education }) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
+  return (
+    <div
+      ref={cardRef}
+      className="edu-card tilt-card p-6 sm:p-7 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card hover:shadow-xl hover:shadow-violet-600/10 cursor-default"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+        <div>
+          <h4 className="text-lg font-bold text-white tracking-tight group-hover:text-violet-300 transition-colors">
+            {edu.degree}
+          </h4>
+          <p className="text-sm font-medium text-violet-400">
+            {edu.field_of_study}
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs font-mono text-slate-400 whitespace-nowrap self-start sm:self-auto">
+          <Calendar className="w-3 h-3 text-slate-400" />
+          {edu.start_date} - {edu.end_date}
+        </span>
+      </div>
+
+      <p className="text-sm text-slate-300 font-semibold mb-2">
+        {edu.institution}
+      </p>
+
+      {edu.grade && (
+        <div className="inline-block px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-3">
+          {edu.grade}
+        </div>
+      )}
+
+      {edu.description && (
+        <p className="text-sm text-slate-400 leading-relaxed">
+          {edu.description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function CertificationCardItem({ cert }: { cert: Certification }) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
+  return (
+    <div
+      ref={cardRef}
+      className="edu-card tilt-card p-6 sm:p-7 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-cyan-500/40 transition-all glow-card hover:shadow-xl hover:shadow-cyan-600/10 cursor-default"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+        <h4 className="text-lg font-bold text-white tracking-tight group-hover:text-cyan-300 transition-colors">
+          {cert.name}
+        </h4>
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs font-mono text-slate-400 whitespace-nowrap self-start sm:self-auto">
+          <Calendar className="w-3 h-3 text-slate-400" />
+          {cert.issue_date}
+        </span>
+      </div>
+
+      <p className="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-1.5">
+        <ShieldCheck className="w-3.5 h-3.5" />
+        <span>{cert.issuer}</span>
+      </p>
+
+      {cert.description && (
+        <p className="text-sm text-slate-400 leading-relaxed mb-4">
+          {cert.description}
+        </p>
+      )}
+
+      {cert.credential_url && (
+        <a
+          href={cert.credential_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+        >
+          <span>Verify Credential</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
+      )}
+    </div>
   );
 }

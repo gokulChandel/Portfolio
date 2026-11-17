@@ -12,6 +12,8 @@ import {
   Compass,
 } from 'lucide-react';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
+import { usePointerTilt } from '@/lib/animations/usePointerTilt';
+import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { Profile } from '@/types';
 
 interface AboutProps {
@@ -93,16 +95,11 @@ export default function About({ profile }: AboutProps) {
         {/* 4 Summary Highlight Cards */}
         <div className="about-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
           {profile.highlights.map((item, idx) => (
-            <div
+            <AboutHighlightCard
               key={idx}
-              className="about-card p-6 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card"
-            >
-              <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center mb-4">
-                {iconMap[item.icon] || <Code2 className="w-5 h-5 text-violet-400" />}
-              </div>
-              <h3 className="text-xl font-bold text-white tracking-tight">{item.label}</h3>
-              <p className="text-xs text-slate-400 mt-1 font-medium">{item.sublabel}</p>
-            </div>
+              item={item}
+              icon={iconMap[item.icon] || <Code2 className="w-5 h-5 text-violet-400" />}
+            />
           ))}
         </div>
 
@@ -175,5 +172,30 @@ export default function About({ profile }: AboutProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+function AboutHighlightCard({
+  item,
+  icon,
+}: {
+  item: { label: string; sublabel: string; icon: string };
+  icon: React.ReactNode;
+}) {
+  const cardRef = usePointerTilt<HTMLDivElement>();
+
+  return (
+    <div
+      ref={cardRef}
+      className="about-card tilt-card group p-6 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all glow-card hover:shadow-xl hover:shadow-violet-600/10 cursor-default"
+    >
+      <div className="w-11 h-11 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-violet-600/10 transition-all">
+        {icon}
+      </div>
+      <h3 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-1 group-hover:text-violet-300 transition-colors">
+        <AnimatedCounter value={item.label} />
+      </h3>
+      <p className="text-xs text-slate-400 mt-1 font-medium leading-relaxed">{item.sublabel}</p>
+    </div>
   );
 }

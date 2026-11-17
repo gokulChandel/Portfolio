@@ -2,25 +2,30 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowRight, Sparkles, Eye } from 'lucide-react';
 import { GithubIcon } from '@/components/ui/BrandIcons';
 import { Project } from '@/types';
 import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 
 interface ProjectCardProps {
   project: Project;
+  onQuickView?: (project: Project) => void;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, onQuickView }: ProjectCardProps) {
   const cardRef = usePointerTilt<HTMLDivElement>();
 
   return (
-    <div ref={cardRef} className="project-card tilt-card group relative h-full min-w-0 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card">
+    <div
+      ref={cardRef}
+      className="project-card tilt-card group relative h-full min-w-0 rounded-2xl bg-[#111827]/80 border border-white/[0.08] hover:border-violet-500/40 transition-all flex flex-col justify-between overflow-hidden glow-card"
+    >
       <div>
         {/* Project Thumbnail / Header illustration */}
         <div className="relative aspect-video w-full bg-[#0D1220] overflow-hidden border-b border-white/[0.06] flex items-center justify-center">
           <div className="absolute inset-0 bg-gradient-to-tr from-violet-900/30 via-transparent to-cyan-900/20 group-hover:scale-105 transition-transform duration-500" />
-          
+          <div className="absolute inset-0 bg-grid-pattern opacity-10 group-hover:opacity-25 transition-opacity" />
+
           {/* Aesthetic technical preview */}
           <div className="p-6 text-center space-y-2 relative z-10">
             <span className="text-xs font-mono uppercase tracking-widest text-violet-400 font-semibold px-2.5 py-1 rounded-full bg-violet-500/10 border border-violet-500/20">
@@ -31,9 +36,24 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </h3>
           </div>
 
+          {/* Quick View Button overlay on hover */}
+          {onQuickView && (
+            <button
+              type="button"
+              onClick={() => onQuickView(project)}
+              className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-200 cursor-pointer"
+              aria-label={`Quick view ${project.title}`}
+            >
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-violet-600 text-white text-xs font-mono font-medium shadow-lg shadow-violet-600/40 scale-95 group-hover:scale-100 transition-transform">
+                <Eye className="w-3.5 h-3.5" />
+                <span>Quick View</span>
+              </span>
+            </button>
+          )}
+
           {/* Featured Badge */}
           {project.is_featured && (
-            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-violet-600/90 text-white text-[11px] font-mono font-semibold flex items-center gap-1 shadow-md shadow-violet-600/30">
+            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-violet-600/90 text-white text-[11px] font-mono font-semibold flex items-center gap-1 shadow-md shadow-violet-600/30 z-20">
               <Sparkles className="w-3 h-3" />
               <span>Featured</span>
             </div>
@@ -51,7 +71,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {project.technologies.slice(0, 5).map((tech, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-0.5 rounded-md text-xs font-mono bg-white/[0.04] border border-white/[0.08] text-slate-300"
+                className="px-2.5 py-0.5 rounded-md text-xs font-mono bg-white/[0.04] border border-white/[0.08] text-slate-300 group-hover:border-violet-500/30 transition-colors"
               >
                 {tech}
               </span>
@@ -71,7 +91,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           href={`/projects/${project.slug}`}
           className="inline-flex items-center gap-2 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors group-hover:translate-x-0.5 duration-200"
         >
-          <span>Explore Architecture</span>
+          <span>Architecture Details</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
 
