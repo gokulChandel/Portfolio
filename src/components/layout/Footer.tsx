@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { Mail, ArrowUp } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
 
 interface FooterProps {
@@ -22,19 +22,8 @@ export default function Footer({
   linkedinUrl = 'https://www.linkedin.com/in/gokul-chandel/',
   email = 'gokulchandel25@gmail.com',
 }: FooterProps) {
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setShowBackToTop(window.scrollY > 320);
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <>
-      <footer className="relative border-t border-white/[0.08] bg-[#080B12] pt-16 pb-12 overflow-hidden">
+    <footer className="relative border-t border-white/[0.08] bg-[#080B12] pt-16 pb-12 overflow-hidden">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-24 bg-violet-600/10 blur-3xl pointer-events-none" />
 
@@ -133,18 +122,6 @@ export default function Footer({
             <p>{footerText}</p>
           </div>
         </div>
-      </footer>
-
-      {showBackToTop && (
-        <Link
-          href="/#hero"
-          className="site-back-to-top fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold shadow-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          aria-label="Back to top"
-        >
-          <ArrowUp className="h-4 w-4" />
-          <span>Back to top</span>
-        </Link>
-      )}
-    </>
+    </footer>
   );
 }

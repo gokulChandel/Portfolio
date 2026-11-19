@@ -10,6 +10,19 @@ import {
   SiteSettings,
 } from '@/types';
 
+export const initialCareerTargets = [
+  'Software Development Engineer',
+  'Software Engineer',
+  'Full Stack Developer',
+  'Backend Developer',
+  'Frontend Developer',
+  'React.js Developer',
+  'Node.js Developer',
+  'Full Stack Software Engineer',
+  'Backend Software Engineer',
+  'Frontend Software Engineer',
+];
+
 export const initialProfile: Profile = {
   id: 'gokul-chandel-profile',
   name: 'Gokul Chandel',
@@ -26,16 +39,16 @@ export const initialProfile: Profile = {
   linkedin_url: 'https://www.linkedin.com/in/gokul-chandel/',
   resume_url: '/Gokul_Resume.pdf',
   availability_status: 'Available for opportunities',
+  about_label: 'About Gokul',
+  about_heading: 'Engineering Clean Architectures & Scalable Systems',
+  about_description:
+    'A developer passionate about high-efficiency systems, robust APIs, and modern frontend technologies.',
   about_paragraphs: [
     'I am a Full Stack Developer with 2+ years of experience building scalable production applications with React.js, Node.js, Express.js, TypeScript, PostgreSQL, and MongoDB.',
     'At Parkhya Solutions, I have contributed to three enterprise platforms across school management, B2B CRM, and e-commerce. My work includes secure REST APIs with JWT and role-based access control, payment integrations, real-time features, and analytics dashboards.',
     'I focus on reliable, maintainable systems: optimizing database queries and application performance, automating workflows, and collaborating through Agile development and CI/CD.',
   ],
-  career_targets: [
-    'Software Development Engineer',
-    'Full Stack Developer',
-    'Backend Developer',
-  ],
+  career_targets: initialCareerTargets,
   primary_expertise: [
     'React.js & TypeScript',
     'Node.js & Express.js',
@@ -103,6 +116,8 @@ export const initialSkills: Skill[] = [
   { id: 'sk-supabase', category_id: 'cat-database', category_name: 'Database', name: 'Supabase', icon: 'Zap', proficiency_label: 'Proficient', display_order: 3, is_active: true },
   { id: 'sk-firebase', category_id: 'cat-database', category_name: 'Database', name: 'Firebase', icon: 'Flame', proficiency_label: 'Proficient', display_order: 4, is_active: true },
   { id: 'sk-mysql', category_id: 'cat-database', category_name: 'Database', name: 'MySQL', icon: 'Database', proficiency_label: 'Experienced', display_order: 5, is_active: true },
+  { id: 'sk-sql', category_id: 'cat-database', category_name: 'Database', name: 'SQL', icon: 'Database', proficiency_label: 'Experienced', display_order: 6, is_active: true },
+  { id: 'sk-nosql', category_id: 'cat-database', category_name: 'Database', name: 'NoSQL', icon: 'Database', proficiency_label: 'Experienced', display_order: 7, is_active: true },
 
   // DevOps & Cloud
   { id: 'sk-docker', category_id: 'cat-devops', category_name: 'DevOps & Cloud', name: 'Docker', icon: 'Container', proficiency_label: 'Working Knowledge', display_order: 1, is_active: true },
@@ -117,6 +132,8 @@ export const initialSkills: Skill[] = [
   { id: 'sk-github', category_id: 'cat-tools', category_name: 'Tools', name: 'GitHub', icon: 'Github', proficiency_label: 'Experienced', display_order: 2, is_active: true },
   { id: 'sk-postman', category_id: 'cat-tools', category_name: 'Tools', name: 'Postman', icon: 'Send', proficiency_label: 'Experienced', display_order: 3, is_active: true },
   { id: 'sk-vscode', category_id: 'cat-tools', category_name: 'Tools', name: 'VS Code', icon: 'CodeXml', proficiency_label: 'Experienced', display_order: 4, is_active: true },
+  { id: 'sk-agile', category_id: 'cat-tools', category_name: 'Tools', name: 'Agile / Scrum', icon: 'Workflow', proficiency_label: 'Experienced', display_order: 5, is_active: true },
+  { id: 'sk-dsa', category_id: 'cat-tools', category_name: 'Tools', name: 'Data Structures & Algorithms', icon: 'Cpu', proficiency_label: 'Proficient', display_order: 6, is_active: true },
 ];
 
 export const initialProjects: Project[] = [

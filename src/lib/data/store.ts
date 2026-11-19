@@ -22,6 +22,7 @@ import {
   initialCertifications,
   initialServices,
   initialSiteSettings,
+  initialCareerTargets,
 } from './initialData';
 import { createServerSupabaseClient } from '../supabase/server';
 import { normalizeSiteColors } from '@/lib/siteColorThemes';
@@ -38,6 +39,20 @@ interface LocalState {
   messages: ContactMessage[];
   siteSettings: SiteSettings;
 }
+
+const excludedCareerTargets = new Set([
+  'api developer',
+  'mern stack developer',
+  'software developer',
+  'associate software engineer',
+  'software engineer i',
+  'full stack engineer',
+  'backend engineer',
+  'frontend engineer',
+  'react developer',
+  'node.js backend engineer',
+  'web developer',
+]);
 
 const DATA_FILE_PATH = path.join(process.cwd(), '.data', 'portfolio-state.json');
 
@@ -142,11 +157,35 @@ export async function getProfile(): Promise<Profile> {
     const { data, error } = await supabase.from('profiles').select('*').limit(1).single();
     if (!error && data) {
       const profile = data as Profile;
-      return { ...profile, resume_url: getAvailableResumeUrl(profile.resume_url) };
+      return {
+        ...profile,
+        career_targets: mergeCareerTargets(profile.career_targets),
+        resume_url: getAvailableResumeUrl(profile.resume_url),
+      };
     }
   }
-  const profile = getLocalState().profile;
-  return { ...profile, resume_url: getAvailableResumeUrl(profile.resume_url) };
+  const profile = { ...initialProfile, ...getLocalState().profile };
+  return {
+    ...profile,
+    career_targets: mergeCareerTargets(profile.career_targets),
+    resume_url: getAvailableResumeUrl(profile.resume_url),
+  };
+}
+
+function mergeCareerTargets(careerTargets: string[] | null | undefined): string[] {
+  const uniqueRoles = new Map<string, string>();
+  for (const role of [...(careerTargets ?? []), ...initialCareerTargets]) {
+    const trimmedRole = role.trim();
+    const normalizedRole = trimmedRole.toLowerCase();
+    if (
+      normalizedRole &&
+      !excludedCareerTargets.has(normalizedRole) &&
+      !uniqueRoles.has(normalizedRole)
+    ) {
+      uniqueRoles.set(normalizedRole, trimmedRole);
+    }
+  }
+  return [...uniqueRoles.values()];
 }
 
 export async function updateProfile(updates: Partial<Profile>): Promise<Profile> {
@@ -161,7 +200,12 @@ export async function updateProfile(updates: Partial<Profile>): Promise<Profile>
     if (!error && data) return data as Profile;
   }
   const state = getLocalState();
-  state.profile = { ...state.profile, ...updates, updated_at: new Date().toISOString() };
+  state.profile = {
+    ...initialProfile,
+    ...state.profile,
+    ...updates,
+    updated_at: new Date().toISOString(),
+  };
   saveLocalState(state);
   return state.profile;
 }

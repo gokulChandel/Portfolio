@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -19,7 +20,21 @@ import {
 } from '@/lib/data/store';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
 
-export default async function AdminOverviewPage() {
+export default function AdminOverviewPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="rounded-2xl border border-white/[0.08] bg-[#111827]/80 p-8 text-sm text-slate-400">
+          Loading dashboard...
+        </div>
+      }
+    >
+      <AdminOverviewContent />
+    </Suspense>
+  );
+}
+
+async function AdminOverviewContent() {
   const [projects, skills, messages, profile] = await Promise.all([
     getProjects(false),
     getSkills(false),

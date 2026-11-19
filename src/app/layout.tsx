@@ -76,6 +76,8 @@ import ScrollProgressBar from '@/components/ui/ScrollProgressBar';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import ConfettiBurst from '@/components/ui/ConfettiBurst';
 
+export const instant = false;
+
 export default async function RootLayout({
   children,
 }: {

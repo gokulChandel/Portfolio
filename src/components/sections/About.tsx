@@ -16,6 +16,15 @@ import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { Profile } from '@/types';
 
+const careerRoleColors = [
+  'border-violet-400/30 bg-violet-500/10 text-violet-200',
+  'border-cyan-400/30 bg-cyan-500/10 text-cyan-200',
+  'border-emerald-400/30 bg-emerald-500/10 text-emerald-200',
+  'border-sky-400/30 bg-sky-500/10 text-sky-200',
+  'border-amber-400/30 bg-amber-500/10 text-amber-200',
+  'border-fuchsia-400/30 bg-fuchsia-500/10 text-fuchsia-200',
+];
+
 interface AboutProps {
   profile: Profile;
 }
@@ -71,7 +80,6 @@ export default function About({ profile }: AboutProps) {
     Code2: <Code2 className="w-5 h-5 text-emerald-400" />,
     Server: <Server className="w-5 h-5 text-amber-400" />,
   };
-
   return (
     <section
       ref={containerRef}
@@ -82,13 +90,13 @@ export default function About({ profile }: AboutProps) {
         {/* Section Header */}
         <div className="about-header text-center max-w-2xl mx-auto space-y-3 mb-16">
           <span className="text-xs font-mono text-violet-400 uppercase tracking-widest px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 inline-block">
-            About Gokul
+            {profile.about_label}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
-            Engineering Clean Architectures & Scalable Systems
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white [overflow-wrap:anywhere]">
+            {profile.about_heading}
           </h2>
           <p className="text-sm sm:text-base text-slate-400">
-            A developer passionate about high-efficiency systems, robust APIs, and modern frontend technologies.
+            {profile.about_description}
           </p>
         </div>
 
@@ -145,7 +153,7 @@ export default function About({ profile }: AboutProps) {
                 {profile.career_targets.map((role, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-violet-600/15 border border-violet-500/25 text-violet-300"
+                    className={`rounded-lg border px-3 py-1.5 text-xs font-semibold tracking-wide ${careerRoleColors[idx % careerRoleColors.length]}`}
                   >
                     {role}
                   </span>

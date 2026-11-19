@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import {
   getProfile,
   getSkills,
@@ -21,7 +22,21 @@ import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 
 
-export default async function HomePage() {
+export default function HomePage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#080B12] text-sm text-slate-400">
+          Loading portfolio...
+        </main>
+      }
+    >
+      <PortfolioHomeContent />
+    </Suspense>
+  );
+}
+
+async function PortfolioHomeContent() {
   const [
     profile,
     skills,
@@ -56,7 +71,7 @@ export default async function HomePage() {
 
       {/* Main Sections */}
       <main className="relative z-10 isolate flex flex-col">
-        <Hero profile={profile} />
+        <Hero profile={profile} skills={skills} />
         <About profile={profile} />
         <Skills skills={skills} categories={skillCategories} />
         <Experience experiences={experiences} />

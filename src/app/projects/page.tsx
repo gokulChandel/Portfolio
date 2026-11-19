@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -11,7 +12,21 @@ export const metadata: Metadata = {
   description: 'Full portfolio directory of web applications, full-stack systems, and software engineering projects by Gokul Chandel.',
 };
 
-export default async function ProjectsIndexPage() {
+export default function ProjectsIndexPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#080B12] text-sm text-slate-400">
+          Loading projects...
+        </main>
+      }
+    >
+      <ProjectsIndexContent />
+    </Suspense>
+  );
+}
+
+async function ProjectsIndexContent() {
   const projects = await getProjects(true);
 
   return (

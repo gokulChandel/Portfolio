@@ -16,6 +16,9 @@ export interface Profile {
   resume_url: string;
   avatar_url?: string;
   availability_status: string;
+  about_label: string;
+  about_heading: string;
+  about_description: string;
   about_paragraphs: string[];
   career_targets: string[];
   primary_expertise: string[];

@@ -174,6 +174,7 @@
 }
 
 .glow-card {
+  container-type: inline-size;
   position: relative;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
@@ -1527,21 +1528,6 @@ html[data-colors] .site-resume-button:hover {
   color: var(--button-text) !important;
 }
 
-html[data-colors] .site-back-to-top {
-  background-color: var(--accent);
-  color: var(--button-text);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 32%, transparent);
-}
-
-html[data-colors] .site-back-to-top:hover {
-  background-color: var(--secondary-accent);
-  color: var(--button-text);
-}
-
-html[data-colors] .site-back-to-top:focus-visible {
-  outline-color: var(--accent);
-}
-
 html[data-colors] .site-nav-link {
   color: var(--text-secondary);
 }
@@ -1944,6 +1930,7 @@ html[data-colors] ::selection {
 }
 
 .hero-showcase {
+  container-type: inline-size;
   position: relative;
   display: block;
   width: min(100%, 30rem);
@@ -2038,55 +2025,82 @@ html[data-colors] ::selection {
   pointer-events: none;
 }
 
+.hero-skill-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+@property --orbit-turn {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --skill-radius {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.hero-skill-node {
+  --orbit-turn: 0deg;
+  --skill-radius: 0cqi;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(calc(var(--skill-angle) + var(--orbit-turn))) translateY(calc(0px - var(--skill-radius))) rotate(calc(0deg - var(--skill-angle) - var(--orbit-turn)));
+  transition: --skill-radius 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-showcase.is-expanded .hero-skill-orbit-outer .hero-skill-node {
+  animation: skill-orbit-turn var(--orbit-duration) linear infinite;
+}
+
+.hero-showcase:not(.is-expanded) .hero-skill-label {
+  max-width: 3rem;
+  padding: 0.12rem 0.18rem;
+  font-size: 0.48rem;
+  line-height: 1;
+}
+
+@keyframes skill-orbit-turn {
+  to { --orbit-turn: 360deg; }
+}
+
 .hero-orbit-chip {
   position: absolute;
   z-index: 1;
-  padding: 0.55rem 0.8rem;
+  padding: 0.42rem 0.6rem;
   border: 1px solid var(--glass-border);
   border-radius: 999px;
   background: var(--glass-bg);
-  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.2);
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.28);
   color: var(--text-secondary);
-  font: 500 0.7rem/1 var(--font-geist-mono), monospace;
-  white-space: nowrap;
-  will-change: transform;
+  font: 500 0.56rem/1.1 var(--font-geist-mono), monospace;
+  text-align: center;
+  white-space: normal;
   pointer-events: none;
 }
 
-.hero-chip-react {
-  top: 19%;
-  left: 17%;
-  color: #67e8f9;
+.hero-skill-label {
+  position: relative;
+  top: auto;
+  left: auto;
+  max-width: 4rem;
 }
 
-.hero-chip-next {
-  top: 16%;
-  right: 12%;
-  color: var(--text-primary);
-}
+.hero-chip-react { color: #67e8f9; }
+.hero-chip-next { color: var(--text-primary); }
+.hero-chip-node { color: #6ee7b7; }
+.hero-chip-data { color: #93c5fd; }
+.hero-chip-api { color: #c4b5fd; }
+.hero-chip-ts { color: #93c5fd; }
 
-.hero-chip-node {
-  top: 47%;
-  right: 3%;
-  color: #6ee7b7;
-}
-
-.hero-chip-data {
-  right: 13%;
-  bottom: 20%;
-  color: #93c5fd;
-}
-
-.hero-chip-api {
-  bottom: 15%;
-  left: 14%;
-  color: #c4b5fd;
-}
-
-.hero-chip-ts {
-  top: 48%;
-  left: 3%;
-  color: #93c5fd;
+.hero-skill-orbit-outer .hero-skill-label {
+  border-color: rgba(103, 232, 249, 0.2);
 }
 
 .hero-orbit-prompt {
@@ -2125,6 +2139,11 @@ html[data-colors] ::selection {
   overflow-wrap: anywhere;
 }
 
+.hero-stat-card > span:first-of-type {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .hero-stat-card strong {
   color: var(--text-primary);
   font-weight: 600;
@@ -2143,13 +2162,31 @@ html[data-colors] ::selection {
 }
 
 @media (max-width: 639px) {
-  .hero-showcase {
-    width: min(100%, 19rem);
+  main > section[id]:not(#hero) {
+    padding-block: clamp(3.75rem, 11vw, 4.5rem);
   }
 
-  .hero-orbit-chip {
-    padding: 0.45rem 0.6rem;
-    font-size: 0.62rem;
+  #about .about-header {
+    margin-bottom: 2.5rem;
+  }
+
+  #about .about-grid {
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  #about .about-card {
+    padding: 1.15rem;
+  }
+
+  #projects button,
+  #skills button,
+  #contact a {
+    min-height: 2.75rem;
+  }
+
+  .hero-showcase {
+    width: min(100%, 19rem);
   }
 
   .hero-showcase-stats {
@@ -2157,15 +2194,27 @@ html[data-colors] ::selection {
   }
 
   .hero-stat-card {
+    min-height: 4.5rem;
     padding: 0.55rem;
     font-size: 0.58rem;
+  }
+
+  .hero-skill-label {
+    max-width: 3rem;
+    padding: 0.2rem 0.25rem;
+    font-size: 0.48rem;
+  }
+
+  .hero-orbit-prompt {
+    font-size: 0.56rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-orbit-one,
   .hero-orbit-two,
-  .hero-orbit-three {
+  .hero-orbit-three,
+  .hero-skill-node {
     animation: none;
   }
 }
@@ -2233,4 +2282,3 @@ html[data-colors] ::selection {
 .btn-shimmer:hover::after {
   transform: rotate(30deg) translateY(100%);
 }
-

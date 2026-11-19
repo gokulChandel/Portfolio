@@ -15,15 +15,23 @@ import RoleCycler from '@/components/ui/RoleCycler';
 import HeroShowcase from '@/components/sections/HeroShowcase';
 import { triggerConfetti } from '@/components/ui/ConfettiBurst';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
-import { Profile } from '@/types';
+import { initialSkills } from '@/lib/data/initialData';
+import { Profile, Skill } from '@/types';
 
 interface HeroProps {
   profile: Profile;
+  skills: Skill[];
 }
 
-export default function Hero({ profile }: HeroProps) {
+export default function Hero({ profile, skills }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
-
+  const portfolioSkills = [...skills];
+  const activeSkillNames = new Set(skills.map((skill) => skill.name.toLowerCase()));
+  for (const skill of initialSkills) {
+    if (!activeSkillNames.has(skill.name.toLowerCase())) {
+      portfolioSkills.push(skill);
+    }
+  }
   // GSAP Entrance Animations
   useGSAP(
     () => {
@@ -120,15 +128,6 @@ export default function Hero({ profile }: HeroProps) {
             duration: 0.6,
           },
           '-=0.5'
-        )
-        .from(
-          '.hero-showcase',
-          {
-            opacity: 0,
-            y: 18,
-            duration: 1,
-          },
-          '-=0.7'
         );
     },
     { scope: containerRef }
@@ -271,6 +270,7 @@ export default function Hero({ profile }: HeroProps) {
           <HeroShowcase
             experienceYears={profile.experience_years}
             currentCompany={profile.current_company}
+            skills={portfolioSkills}
           />
         </div>
 

@@ -40,6 +40,9 @@ Stores the developer's core identity, career objectives, and summary metadata.
 | `linkedin_url` | `TEXT` | `NOT NULL` | LinkedIn profile URL |
 | `resume_url` | `TEXT` | `NOT NULL` | Path or URL to current resume |
 | `availability_status` | `TEXT` | `NOT NULL` | Opportunities status badge |
+| `about_label` | `TEXT` | `NOT NULL` | About section eyebrow label |
+| `about_heading` | `TEXT` | `NOT NULL` | About section heading |
+| `about_description` | `TEXT` | `NOT NULL` | About section introduction |
 | `about_paragraphs`| `JSONB` | `NOT NULL` | Array of descriptive bio paragraphs |
 | `career_targets` | `JSONB` | `NOT NULL` | Array of targeted engineering roles |
 | `primary_expertise`| `JSONB` | `NOT NULL`| Core domains of expertise |

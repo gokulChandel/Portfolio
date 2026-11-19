@@ -6,7 +6,8 @@
 INSERT INTO public.profiles (
   id, name, title, subtitle, intro_tag, bio, experience_years,
   current_company, location, email, github_url, linkedin_url, resume_url, 
-  phone, availability_status, about_paragraphs, career_targets, primary_expertise, highlights
+  phone, availability_status, about_label, about_heading, about_description,
+  about_paragraphs, career_targets, primary_expertise, highlights
 ) VALUES (
   'gokul-chandel-profile',
   'Gokul Chandel',
@@ -23,8 +24,11 @@ INSERT INTO public.profiles (
   '/Gokul_Resume.pdf',
   '+91 62329 74541',
   'Available for opportunities',
+  'About Gokul',
+  'Engineering Clean Architectures & Scalable Systems',
+  'A developer passionate about high-efficiency systems, robust APIs, and modern frontend technologies.',
   '["I am a Full Stack Developer with 2+ years of experience building scalable production applications with React.js, Node.js, Express.js, TypeScript, PostgreSQL, and MongoDB.", "At Parkhya Solutions, I have contributed to three enterprise platforms across school management, B2B CRM, and e-commerce. My work includes secure REST APIs with JWT and role-based access control, payment integrations, real-time features, and analytics dashboards.", "I focus on reliable, maintainable systems: optimizing database queries and application performance, automating workflows, and collaborating through Agile development and CI/CD."]'::jsonb,
-  '["Software Development Engineer", "Full Stack Developer", "Backend Developer"]'::jsonb,
+  '["Software Development Engineer", "Software Engineer", "Full Stack Developer", "Backend Developer", "Frontend Developer", "React.js Developer", "Node.js Developer", "Full Stack Software Engineer", "Backend Software Engineer", "Frontend Software Engineer"]'::jsonb,
   '["React.js & TypeScript", "Node.js & Express.js", "Secure REST APIs, JWT & RBAC", "PostgreSQL & MongoDB", "Payment Gateway Integration", "Performance Optimization & CI/CD"]'::jsonb,
   '[
     {"label": "2+ Years", "sublabel": "Professional Experience", "icon": "Briefcase"},
@@ -45,6 +49,9 @@ INSERT INTO public.profiles (
   linkedin_url = EXCLUDED.linkedin_url,
   resume_url = EXCLUDED.resume_url,
   phone = EXCLUDED.phone,
+  about_label = EXCLUDED.about_label,
+  about_heading = EXCLUDED.about_heading,
+  about_description = EXCLUDED.about_description,
   about_paragraphs = EXCLUDED.about_paragraphs,
   career_targets = EXCLUDED.career_targets,
   primary_expertise = EXCLUDED.primary_expertise,
@@ -85,6 +92,8 @@ INSERT INTO public.skills (id, category_id, name, icon, proficiency_label, displ
   ('sk-supabase', 'cat-database', 'Supabase', 'Zap', 'Proficient', 3, true),
   ('sk-firebase', 'cat-database', 'Firebase', 'Flame', 'Proficient', 4, true),
   ('sk-mysql', 'cat-database', 'MySQL', 'Database', 'Experienced', 5, true),
+  ('sk-sql', 'cat-database', 'SQL', 'Database', 'Experienced', 6, true),
+  ('sk-nosql', 'cat-database', 'NoSQL', 'Database', 'Experienced', 7, true),
 
   ('sk-docker', 'cat-devops', 'Docker', 'Container', 'Working Knowledge', 1, true),
   ('sk-aws', 'cat-devops', 'AWS', 'Cloud', 'Working Knowledge', 2, true),
@@ -96,7 +105,9 @@ INSERT INTO public.skills (id, category_id, name, icon, proficiency_label, displ
   ('sk-git', 'cat-tools', 'Git', 'GitBranch', 'Experienced', 1, true),
   ('sk-github', 'cat-tools', 'GitHub', 'Github', 'Experienced', 2, true),
   ('sk-postman', 'cat-tools', 'Postman', 'Send', 'Experienced', 3, true),
-  ('sk-vscode', 'cat-tools', 'VS Code', 'CodeXml', 'Experienced', 4, true)
+  ('sk-vscode', 'cat-tools', 'VS Code', 'CodeXml', 'Experienced', 4, true),
+  ('sk-agile', 'cat-tools', 'Agile / Scrum', 'Workflow', 'Experienced', 5, true),
+  ('sk-dsa', 'cat-tools', 'Data Structures & Algorithms', 'Cpu', 'Proficient', 6, true)
 ON CONFLICT (id) DO NOTHING;
 
 -- 4. Projects

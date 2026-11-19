@@ -1,7 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Save, Loader2, CheckCircle2, AlertCircle, User, Briefcase, Mail } from 'lucide-react';
+import {
+  Save,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  User,
+  Briefcase,
+  Mail,
+  FileText,
+  Plus,
+  Trash2,
+} from 'lucide-react';
 import { Profile } from '@/types';
 
 export default function AdminProfilePage() {
@@ -56,6 +67,35 @@ export default function AdminProfilePage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const updateStringList = (
+    field: 'about_paragraphs' | 'career_targets' | 'primary_expertise',
+    index: number,
+    value: string
+  ) => {
+    setProfile((current) =>
+      current
+        ? { ...current, [field]: current[field].map((item, itemIndex) => itemIndex === index ? value : item) }
+        : current
+    );
+  };
+
+  const addStringListItem = (
+    field: 'about_paragraphs' | 'career_targets' | 'primary_expertise'
+  ) => {
+    setProfile((current) => current ? { ...current, [field]: [...current[field], ''] } : current);
+  };
+
+  const removeStringListItem = (
+    field: 'about_paragraphs' | 'career_targets' | 'primary_expertise',
+    index: number
+  ) => {
+    setProfile((current) =>
+      current
+        ? { ...current, [field]: current[field].filter((_, itemIndex) => itemIndex !== index) }
+        : current
+    );
   };
 
   if (loading) {
@@ -214,6 +254,240 @@ export default function AdminProfilePage() {
                 onChange={(e) => setProfile({ ...profile, availability_status: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* About Section Content */}
+        <div className="p-5 sm:p-8 rounded-2xl bg-[#111827]/80 border border-white/[0.08] space-y-7">
+          <div>
+            <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
+              <FileText className="w-4 h-4 text-violet-400" />
+              <span>About Section Settings</span>
+            </h2>
+            <p className="mt-1 text-xs text-slate-400">
+              Edit the About section copy, highlights, career roles, and competencies shown on your portfolio.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5">
+            <div className="space-y-1.5">
+              <label htmlFor="about-label" className="text-xs font-mono uppercase text-slate-300 block">
+                Eyebrow Label
+              </label>
+              <input
+                id="about-label"
+                type="text"
+                required
+                value={profile.about_label}
+                onChange={(e) => setProfile({ ...profile, about_label: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="about-heading" className="text-xs font-mono uppercase text-slate-300 block">
+                Section Heading
+              </label>
+              <input
+                id="about-heading"
+                type="text"
+                required
+                value={profile.about_heading}
+                onChange={(e) => setProfile({ ...profile, about_heading: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="about-description" className="text-xs font-mono uppercase text-slate-300 block">
+                Section Intro
+              </label>
+              <textarea
+                id="about-description"
+                rows={3}
+                required
+                value={profile.about_description}
+                onChange={(e) => setProfile({ ...profile, about_description: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500 resize-y"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-slate-100">About Paragraphs</h3>
+              <button
+                type="button"
+                onClick={() => addStringListItem('about_paragraphs')}
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-violet-400/20 px-3 text-xs font-medium text-violet-200 hover:bg-violet-500/10"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add paragraph
+              </button>
+            </div>
+            {profile.about_paragraphs.map((paragraph, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <textarea
+                  aria-label={`About paragraph ${index + 1}`}
+                  rows={3}
+                  required
+                  value={paragraph}
+                  onChange={(e) => updateStringList('about_paragraphs', index, e.target.value)}
+                  className="min-w-0 flex-1 px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500 resize-y"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeStringListItem('about_paragraphs', index)}
+                  aria-label={`Remove paragraph ${index + 1}`}
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-rose-300 hover:bg-rose-500/10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-slate-100">Career Target Roles</h3>
+              <button
+                type="button"
+                onClick={() => addStringListItem('career_targets')}
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-violet-400/20 px-3 text-xs font-medium text-violet-200 hover:bg-violet-500/10"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add role
+              </button>
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {profile.career_targets.map((role, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    required
+                    aria-label={`Career target role ${index + 1}`}
+                    value={role}
+                    onChange={(e) => updateStringList('career_targets', index, e.target.value)}
+                    className="min-w-0 flex-1 px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeStringListItem('career_targets', index)}
+                    aria-label={`Remove role ${index + 1}`}
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-rose-300 hover:bg-rose-500/10"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-slate-100">Core Competencies</h3>
+              <button
+                type="button"
+                onClick={() => addStringListItem('primary_expertise')}
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-cyan-400/20 px-3 text-xs font-medium text-cyan-200 hover:bg-cyan-500/10"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add competency
+              </button>
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {profile.primary_expertise.map((competency, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    required
+                    aria-label={`Core competency ${index + 1}`}
+                    value={competency}
+                    onChange={(e) => updateStringList('primary_expertise', index, e.target.value)}
+                    className="min-w-0 flex-1 px-4 py-3 rounded-xl bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeStringListItem('primary_expertise', index)}
+                    aria-label={`Remove competency ${index + 1}`}
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-rose-300 hover:bg-rose-500/10"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-sm font-semibold text-slate-100">Highlight Cards</h3>
+              <button
+                type="button"
+                onClick={() => setProfile({
+                  ...profile,
+                  highlights: [...profile.highlights, { label: '', sublabel: '', icon: 'Code2' }],
+                })}
+                className="inline-flex min-h-10 items-center gap-1.5 rounded-lg border border-violet-400/20 px-3 text-xs font-medium text-violet-200 hover:bg-violet-500/10"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add highlight
+              </button>
+            </div>
+            <div className="space-y-3">
+              {profile.highlights.map((highlight, index) => (
+                <div key={index} className="grid grid-cols-1 gap-3 rounded-xl border border-white/[0.06] bg-[#080B12]/40 p-3 sm:grid-cols-[1fr_1.5fr_9rem_2.75rem] sm:items-center">
+                  <input
+                    type="text"
+                    required
+                    aria-label={`Highlight ${index + 1} title`}
+                    placeholder="Highlight title"
+                    value={highlight.label}
+                    onChange={(e) => setProfile({
+                      ...profile,
+                      highlights: profile.highlights.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, label: e.target.value } : item
+                      ),
+                    })}
+                    className="w-full min-w-0 px-3 py-2.5 rounded-lg bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                  />
+                  <input
+                    type="text"
+                    required
+                    aria-label={`Highlight ${index + 1} description`}
+                    placeholder="Short description"
+                    value={highlight.sublabel}
+                    onChange={(e) => setProfile({
+                      ...profile,
+                      highlights: profile.highlights.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, sublabel: e.target.value } : item
+                      ),
+                    })}
+                    className="w-full min-w-0 px-3 py-2.5 rounded-lg bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                  />
+                  <select
+                    aria-label={`Highlight ${index + 1} icon`}
+                    value={highlight.icon}
+                    onChange={(e) => setProfile({
+                      ...profile,
+                      highlights: profile.highlights.map((item, itemIndex) =>
+                        itemIndex === index ? { ...item, icon: e.target.value } : item
+                      ),
+                    })}
+                    className="w-full min-w-0 px-3 py-2.5 rounded-lg bg-[#080B12]/80 border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                  >
+                    {['Briefcase', 'Layers', 'Code2', 'Server'].map((icon) => (
+                      <option key={icon} value={icon}>{icon}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setProfile({
+                      ...profile,
+                      highlights: profile.highlights.filter((_, itemIndex) => itemIndex !== index),
+                    })}
+                    aria-label={`Remove highlight ${index + 1}`}
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-rose-300 hover:bg-rose-500/10"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>

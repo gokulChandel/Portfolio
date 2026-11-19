@@ -23,7 +23,7 @@ Built with modern **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, **
 - **Modern SaaS Dashboard Layout**: Sidebar navigation, breadcrumbs, profile pills, and quick portfolio preview.
 - **Secure Authentication**: HMAC-SHA256 signed session cookies, protected server-side route barriers, and CSRF/XSS mitigations.
 - **Overview Analytics**: Real-time counts of published projects, active skills, unread inquiries, and live Supabase connection status.
-- **Profile Management**: Update name, title, bio, career targets, location, and resume paths directly.
+- **Profile & About Management**: Update personal details and control the About section copy, highlights, career targets, and competencies directly.
 - **Skills CRUD**: Add, edit, toggle visibility, categorize, and reorder technical skills without touching source code.
 - **Projects CRUD**: Full management of title, slug, category, problem statement, solution, features, technologies, live demo URLs, and featured showcase flags.
 - **Experience CRUD**: Add, edit, and organize employment history, roles, responsibilities, and dates.

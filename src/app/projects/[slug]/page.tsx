@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -53,7 +54,21 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   };
 }
 
-export default async function ProjectDetailPage({ params }: ProjectPageProps) {
+export default function ProjectDetailPage({ params }: ProjectPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#080B12] text-sm text-slate-400">
+          Loading project...
+        </main>
+      }
+    >
+      <ProjectDetailContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ProjectDetailContent({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
