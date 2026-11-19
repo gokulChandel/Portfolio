@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     'Web Developer India',
     'Parkhya Solutions',
   ],
-  authors: [{ name: 'Gokul Chandel', url: 'https://github.com/gokulchandel' }],
+  authors: [{ name: 'Gokul Chandel' }],
   creator: 'Gokul Chandel',
   openGraph: {
     type: 'website',
@@ -95,10 +95,7 @@ export default async function RootLayout({
       name: 'Parkhya Solutions Pvt. Ltd.',
     },
     url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-    sameAs: [
-      'https://github.com/gokulchandel',
-      'https://www.linkedin.com/in/gokul-chandel/',
-    ],
+    sameAs: ['https://www.linkedin.com/in/gokul-chandel/'],
     knowsAbout: [
       'React.js',
       'Next.js',

@@ -13,7 +13,7 @@ import {
   Copy,
   Check,
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
+import { LinkedinIcon } from '@/components/ui/BrandIcons';
 import { useGSAP, gsap } from '@/lib/animations/gsap';
 import { triggerConfetti } from '@/components/ui/ConfettiBurst';
 import { Profile } from '@/types';
@@ -330,15 +330,6 @@ export default function ContactSection({ profile }: ContactProps) {
                   Find Me Online
                 </span>
                 <div className="flex items-center gap-3">
-                  <a
-                    href={profile.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-violet-600/10 hover:border-violet-500/50 text-slate-300 hover:text-white text-xs font-semibold transition-all"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>GitHub</span>
-                  </a>
                   <a
                     href={profile.linkedin_url}
                     target="_blank"

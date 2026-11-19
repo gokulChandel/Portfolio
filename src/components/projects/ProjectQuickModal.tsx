@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import {
   X,
@@ -10,7 +11,6 @@ import {
   ShieldCheck,
   Zap,
 } from 'lucide-react';
-import { GithubIcon } from '@/components/ui/BrandIcons';
 import { Project } from '@/types';
 
 interface ProjectQuickModalProps {
@@ -37,11 +37,11 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
     };
   }, [project, onClose]);
 
-  if (!project) return null;
+  if (!project || typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto overscroll-contain p-3 sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-project-title"
@@ -54,7 +54,7 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative w-full max-w-2xl bg-[#0D1220] border border-white/10 rounded-3xl shadow-2xl shadow-violet-500/10 overflow-hidden z-10 animate-in zoom-in-95 duration-200 my-8">
+      <div className="relative my-auto flex max-h-[calc(100dvh-1.5rem)] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0D1220] shadow-2xl shadow-violet-500/10 z-10 animate-in zoom-in-95 duration-200 sm:my-8 sm:max-h-[calc(100dvh-3rem)]">
         {/* Top Header Glow Bar */}
         <div className="h-1.5 w-full bg-gradient-to-r from-violet-500 via-cyan-400 to-emerald-400" />
 
@@ -86,7 +86,7 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-8 space-y-6">
           {/* Summary */}
           <div className="space-y-2">
             <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
@@ -142,7 +142,7 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
         </div>
 
         {/* Modal Footer Actions */}
-        <div className="p-6 sm:p-8 pt-4 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 bg-[#080B12]/60">
+        <div className="flex shrink-0 flex-col items-stretch justify-between gap-3 border-t border-white/[0.06] bg-[#080B12]/60 p-5 pt-4 sm:flex-row sm:items-center sm:p-8 sm:pt-4">
           <Link
             href={`/projects/${project.slug}`}
             onClick={onClose}
@@ -153,17 +153,6 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
           </Link>
 
           <div className="flex items-center gap-2.5">
-            {project.github_url && (
-              <a
-                href={project.github_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-white border border-white/[0.08] transition-all"
-              >
-                <GithubIcon className="w-4 h-4" />
-                <span>View Code</span>
-              </a>
-            )}
             {project.live_url && (
               <a
                 href={project.live_url}
@@ -178,6 +167,7 @@ export default function ProjectQuickModal({ project, onClose }: ProjectQuickModa
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -10,7 +10,6 @@ import {
   Cpu,
   Sparkles,
 } from 'lucide-react';
-import { GithubIcon } from '@/components/ui/BrandIcons';
 import { getProjectBySlug, getProjects } from '@/lib/data/store';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -132,17 +131,6 @@ async function ProjectDetailContent({ params }: ProjectPageProps) {
                   </a>
                 )}
 
-                {project.github_url && (
-                  <a
-                    href={project.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] text-slate-200 hover:text-white font-medium text-sm transition-all"
-                  >
-                    <GithubIcon className="w-4 h-4" />
-                    <span>Explore Repository</span>
-                  </a>
-                )}
               </div>
             </div>
           </div>

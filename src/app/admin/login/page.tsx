@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, Mail, ArrowRight, AlertCircle, Loader2, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@gokulchandel.dev');
-  const [password, setPassword] = useState('admin12345');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-xs font-mono uppercase tracking-wider text-slate-300 block">
                 Admin Email
@@ -81,6 +81,7 @@ export default function AdminLoginPage() {
                 <input
                   type="email"
                   required
+                  autoComplete="off"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@example.com"
@@ -98,6 +99,7 @@ export default function AdminLoginPage() {
                 <input
                   type="password"
                   required
+                  autoComplete="off"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
@@ -125,23 +127,6 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Local Testing Quick Helper */}
-          <div className="mt-6 pt-5 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-400">
-            <span className="flex items-center gap-1.5 font-mono">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Dev Credentials Configured</span>
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('admin@gokulchandel.dev');
-                setPassword('admin12345');
-              }}
-              className="text-violet-400 hover:text-violet-300 underline font-mono text-[11px]"
-            >
-              Fill Defaults
-            </button>
-          </div>
         </div>
 
         {/* Back to Site */}

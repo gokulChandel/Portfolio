@@ -3,13 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
+import { LinkedinIcon } from '@/components/ui/BrandIcons';
 
 interface FooterProps {
   name?: string;
   title?: string;
   footerText?: string;
-  githubUrl?: string;
   linkedinUrl?: string;
   email?: string;
 }
@@ -18,7 +17,6 @@ export default function Footer({
   name = 'Gokul Chandel',
   title = 'Full Stack Developer',
   footerText = '© 2026 Gokul Chandel. Engineered for performance and clean architecture.',
-  githubUrl = 'https://github.com/gokulchandel',
   linkedinUrl = 'https://www.linkedin.com/in/gokul-chandel/',
   email = 'gokulchandel25@gmail.com',
 }: FooterProps) {
@@ -41,15 +39,6 @@ export default function Footer({
                 {title} building resilient web platforms, scalable backend services, and interactive user interfaces with modern web standards.
               </p>
               <div className="flex items-center gap-3 pt-2">
-                <a
-                  href={githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-slate-400 hover:text-white hover:border-violet-500/50 hover:bg-violet-600/10 transition-all"
-                  aria-label="GitHub Profile"
-                >
-                  <GithubIcon className="w-4 h-4" />
-                </a>
                 <a
                   href={linkedinUrl}
                   target="_blank"

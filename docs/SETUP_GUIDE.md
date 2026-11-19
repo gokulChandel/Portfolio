@@ -59,12 +59,14 @@ SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 # ----------------------------------------------------
-# ADMIN CMS CREDENTIALS (Secure fallback for offline testing)
+# ADMIN CMS CREDENTIALS (Set unique values; login rejects weak defaults)
 # ----------------------------------------------------
-ADMIN_EMAIL=admin@gokulchandel.dev
-ADMIN_PASSWORD=admin12345
-ADMIN_SESSION_SECRET=dev-secret-session-key-gokul-chandel-portfolio-2026
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=replace-with-a-unique-password-of-at-least-16-characters
+ADMIN_SESSION_SECRET=replace-with-a-unique-random-secret-of-at-least-32-characters
 ```
+
+Use a unique password with at least 16 characters and a random session secret with at least 32 characters. Do not copy these placeholders as credentials.
 
 > **Note on Resilient Architecture**:
 > If Supabase credentials are not yet entered or offline, the application seamlessly activates its unified local store (`.data/portfolio-state.json`). You can immediately test the public website and every admin CMS CRUD feature without connecting an external service!
@@ -111,8 +113,6 @@ npm run lint
 ## 6. Accessing the Admin CMS
 
 1. Navigate to [http://localhost:3000/admin/login](http://localhost:3000/admin/login).
-2. Enter your credentials:
-   - **Email**: `admin@gokulchandel.dev`
-   - **Password**: `admin12345`
+2. Enter the email and unique password you set in `.env.local` (`ADMIN_EMAIL` and `ADMIN_PASSWORD`). The password must be at least 16 characters.
 3. Click **Sign In to Dashboard**.
 4. You will be redirected to the CMS at `/admin`.

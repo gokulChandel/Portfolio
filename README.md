@@ -10,7 +10,7 @@ Built with modern **Next.js (App Router)**, **TypeScript**, **Tailwind CSS**, **
 
 ### 🖥️ Public Portfolio Experience
 - **Cinematic GSAP Animations**: Smooth text reveals, code card tabs, vertical experience timeline, and scroll-triggered section entrances engineered with `@gsap/react` and `useGSAP` (with automatic `prefers-reduced-motion` detection).
-- **Hero Showcase**: Interactive code panel, real technical stack badges, direct GitHub/LinkedIn/Email contact links, and immediate resume download action.
+- **Hero Showcase**: Interactive code panel, real technical stack badges, LinkedIn/email contact links, and immediate resume download action.
 - **Dynamic Skill Matrix**: Categorized technical skills (Frontend, Backend, Database, DevOps & Cloud, Tools) with proficiency indicators and interactive category filters.
 - **Vertical Experience Timeline**: Chronological career history highlighting 2+ years of production engineering at Parkhya Solutions Pvt. Ltd.
 - **Projects Showcase & Dynamic Detail Pages**: Comprehensive case studies for **Schoolware Admin**, **Janhit Chemist**, and **CRM Platform**, with dedicated deep-dive architecture pages at `/projects/[slug]`.
@@ -62,9 +62,7 @@ Copy the example environment configuration:
 cp .env.example .env.local
 ```
 
-Default local credentials for development testing:
-- **Admin Email**: `admin@gokulchandel.dev`
-- **Admin Password**: `admin12345`
+Set `ADMIN_EMAIL`, a unique `ADMIN_PASSWORD` of at least 16 characters, and a random `ADMIN_SESSION_SECRET` of at least 32 characters in `.env.local` before using the admin CMS. The application rejects missing, weak, or known demo credentials.
 
 ### 3. Run Development Server
 ```bash

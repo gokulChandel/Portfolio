@@ -8,7 +8,7 @@ import {
   Mail,
   CheckCircle2,
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from '@/components/ui/BrandIcons';
+import { LinkedinIcon } from '@/components/ui/BrandIcons';
 import AntigravityParticles from '@/components/ui/AntigravityParticles';
 import FallingText from '@/components/ui/FallingText';
 import RoleCycler from '@/components/ui/RoleCycler';
@@ -221,15 +221,6 @@ export default function Hero({ profile, skills }: HeroProps) {
 
               {/* Social Icons */}
               <div className="flex items-center gap-2 pl-2">
-                <a
-                  href={profile.github_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-slate-400 hover:text-white hover:border-violet-500/50 hover:bg-violet-600/10 transition-all"
-                  aria-label="GitHub Profile"
-                >
-                  <GithubIcon className="w-4 h-4" />
-                </a>
                 <a
                   href={profile.linkedin_url}
                   target="_blank"

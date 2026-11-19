@@ -8,8 +8,7 @@ This guide explains how to use the built-in Content Management System (CMS) to m
 
 - **Login URL**: `/admin/login`
 - **Dashboard URL**: `/admin`
-- **Default Email**: `admin@gokulchandel.dev`
-- **Default Password**: `admin12345`
+- **Credentials**: Set `ADMIN_EMAIL`, a unique `ADMIN_PASSWORD` (at least 16 characters), and a random `ADMIN_SESSION_SECRET` (at least 32 characters) in `.env.local`.
 
 Sessions are protected with `httpOnly` secure cookies and authenticated with cryptographic HMAC signing.
 
@@ -27,7 +26,7 @@ Sessions are protected with `httpOnly` secure cookies and authenticated with cry
 Manage all personal and professional identity fields:
 - **Personal Details**: Full name, title (e.g. *Full Stack Developer*), headline subtitle, and introductory bio.
 - **Employment Information**: Current company (*Parkhya Solutions Pvt. Ltd.*), years of experience (*2+*), and availability status indicator.
-- **Contact Channels**: Professional email address, physical location, GitHub profile URL, and LinkedIn URL.
+- **Contact Channels**: Professional email address, physical location, and LinkedIn URL.
 - **Resume Location**: Path to your active PDF file (defaults to `/Gokul_Resume.pdf`).
 - Click **Save Profile** at the top right to persist updates immediately.
 
@@ -47,7 +46,7 @@ Manage all personal and professional identity fields:
   - Technologies used (comma separated)
   - Key platform features (one per line)
   - Personal engineering contributions (one per line)
-  - Live demo and GitHub repository URLs
+  - Live demo URL
 - **Featured Toggle**: Mark as *Featured* to display a highlighted badge on the project card.
 - **Published Toggle**: Switch between *Published* (live on site) and *Draft* (visible only to admin).
 - **Deleting Projects**: Delete any project with full confirmation protection.

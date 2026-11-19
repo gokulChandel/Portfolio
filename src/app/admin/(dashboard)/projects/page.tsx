@@ -38,7 +38,6 @@ export default function AdminProjectsPage() {
     features: '',
     contributions: '',
     live_url: '',
-    github_url: '',
     is_featured: false,
     is_published: true,
     display_order: 1,
@@ -78,7 +77,6 @@ export default function AdminProjectsPage() {
       features: 'Role-based access control\nInteractive dashboard\nFast API endpoints',
       contributions: 'Architected backend REST services\nDesigned modular UI components',
       live_url: '',
-      github_url: 'https://github.com/gokulchandel',
       is_featured: false,
       is_published: true,
       display_order: projects.length + 1,
@@ -100,7 +98,6 @@ export default function AdminProjectsPage() {
       features: project.features.join('\n'),
       contributions: project.contributions.join('\n'),
       live_url: project.live_url || '',
-      github_url: project.github_url || '',
       is_featured: project.is_featured,
       is_published: project.is_published,
       display_order: project.display_order,
@@ -152,7 +149,6 @@ export default function AdminProjectsPage() {
       features: featuresArray,
       contributions: contributionsArray,
       live_url: formData.live_url,
-      github_url: formData.github_url,
       is_featured: formData.is_featured,
       is_published: formData.is_published,
       display_order: formData.display_order,
@@ -495,30 +491,16 @@ export default function AdminProjectsPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-mono uppercase text-slate-300 block">
-                    GitHub URL
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.github_url}
-                    onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#080B12] border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-mono uppercase text-slate-300 block">
-                    Live Demo URL
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.live_url}
-                    onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#080B12] border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-mono uppercase text-slate-300 block">
+                  Live Demo URL
+                </label>
+                <input
+                  type="url"
+                  value={formData.live_url}
+                  onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#080B12] border border-white/[0.08] text-white text-sm outline-none focus:border-violet-500"
+                />
               </div>
 
               <div className="pt-2 flex flex-wrap items-center justify-between gap-4">

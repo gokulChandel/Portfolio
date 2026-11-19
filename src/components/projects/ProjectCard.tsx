@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { ExternalLink, ArrowRight, Sparkles, Eye } from 'lucide-react';
-import { GithubIcon } from '@/components/ui/BrandIcons';
 import { Project } from '@/types';
 import { usePointerTilt } from '@/lib/animations/usePointerTilt';
 
@@ -41,7 +40,7 @@ export default function ProjectCard({ project, onQuickView }: ProjectCardProps) 
             <button
               type="button"
               onClick={() => onQuickView(project)}
-              className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-200 cursor-pointer"
+              className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 opacity-100 backdrop-blur-[2px] transition-all duration-200 cursor-pointer sm:opacity-0 sm:group-hover:opacity-100"
               aria-label={`Quick view ${project.title}`}
             >
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-violet-600 text-white text-xs font-mono font-medium shadow-lg shadow-violet-600/40 scale-95 group-hover:scale-100 transition-transform">
@@ -96,17 +95,6 @@ export default function ProjectCard({ project, onQuickView }: ProjectCardProps) 
         </Link>
 
         <div className="flex items-center gap-2">
-          {project.github_url && (
-            <a
-              href={project.github_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-white/[0.04] text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors"
-              aria-label="View Source Code"
-            >
-              <GithubIcon className="w-4 h-4" />
-            </a>
-          )}
           {project.live_url && (
             <a
               href={project.live_url}

@@ -20,7 +20,7 @@ import Services from '@/components/sections/Services';
 import Education from '@/components/sections/Education';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
-
+import { Analytics } from "@vercel/analytics/next"
 
 export default function HomePage() {
   return (
@@ -87,7 +87,6 @@ async function PortfolioHomeContent() {
           name={profile.name}
           title={profile.title}
           footerText={siteSettings.footer_text}
-          githubUrl={profile.github_url}
           linkedinUrl={profile.linkedin_url}
           email={profile.email}
         />
